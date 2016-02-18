@@ -131,6 +131,100 @@ Jag tänker också att jag påbörjar en ny loggfil varje vecka för att inte ri
 Senaste bilden från igår visar f.ö. inte den symmetri som vi hoppades på för r2 simulerat som .5. Vi ser fortfarande samma mönster som tidigare för none. Boot ger fortfarande en underskattning. Dock tycks biasen från cv jmfrt med none ha minskat ganska avsevärt . Vi får fortfarande en högre skattning men inte mkt i förhållande till none (vilket vi bör se som facit).
 
 
+## Diskussion med SN
+
+Resultatet ovan var förvånande men då vi kollar med [@Schonbrodt2013] så visar hans artikel samma sak, dock utan att gå in på detaljer om bias (fokuserar istället på varians).
+
+Vi vill nu dock göra en mkt enkel simulering med bara två variabler och ingen validering. Vi gör det direkt utan paketet för att säkerställa att vi får motsvarande resultat och minskar därmed risken för programeringsfel och dylikt.
+Vi gör detta både för R2 (dvs vanlig korrelation mellan de båda variablerna då vi bara har just två variabler) men också för korrelationen (dvs R). 
+
+```{r message = FALSE}
+
+# Settnigs
+true_r2            <- seq(.1, 1, .1)
+subsample_sizes    <- seq(50, 500, 50)
+repeat_subsampling <- 1000
+
+# initiera vektorer för att kunna spara simulerade r2-värden
+r_bias <- r2_bias <- r_mse <- r2_mse <- matrix(nrow = length(true_r2), ncol = length(subsample_sizes))
+
+# Nested loop to make two matrix, one correlation matrix and one r2
+
+# Olika sanna r2-värden
+for (i in seq_along(true_r2)) {
+  r          <- sqrt(true_r2[i])
+  message("true_r2 = ", r ^ 2)
+  big_sample <- mvtnorm::rmvnorm(1e6, sigma = matrix(c(1, r, r, 1), ncol = 2))
+  big_sample <- as.data.frame(big_sample)
+
+  # Med olika stickprovsstorlekar
+  for (j in seq_along(subsample_sizes)) {
+    message("subsamplesize = ", j)
+
+    # Upprepa 1000 ggr
+    tmp_rk <- numeric(repeat_subsampling)
+    for (k in seq_len(repeat_subsampling)) {
+      subsample   <- dplyr::sample_n(big_sample, subsample_sizes[j])
+      tmp_rk[k]   <- cor(subsample$V1, subsample$V2)
+    }
+    r_bias[i, j]  <- mean(tmp_rk     - r)
+    r2_bias[i, j] <- mean(tmp_rk ^ 2 - r ^ 2)
+    r_mse[i, j]   <- mean((tmp_rk     - r) ^ 2)
+    r2_mse[i, j]  <- mean((tmp_rk ^ 2 - r ^ 2) ^ 2)
+  }
+}
+```
+
+<!-- Vi separerar koden i två chunks för att underlätta cachning av föreg vid ev grafiska ändringar etc-->
+```{r}
+# Plot för R2
+plot_r2_bias_sme <- function(x, ylim, main) {
+  plot.new()
+  plot.window(ylim = ylim, xlim = c(0, 500), xaxs = 'i', yaxs = 'i')
+  axis(1, lwd = 3, cex.axis = 1.5)
+  axis(2, lwd = 3, cex.axis = 1.5, las = 2)
+  lines(subsample_sizes, x[1,], col = "darkred")
+  for (i in 2:9) lines(subsample_sizes, x[i,], col = "darkblue")
+  lines(subsample_sizes, x[10,], col = "darkgreen")
+  abline(h = 0, col = "red")
+  title(main = main)
+}
+
+plot_r2_bias_sme(r_bias,  c(-0.007, 0.005), "Bias(R)")
+plot_r2_bias_sme(r2_bias, c(-0.005, 0.02), "Bias(R^2)")
+plot_r2_bias_sme(r_mse,   c(0, 0.016), "MSE(R)")
+plot_r2_bias_sme(r2_bias, c(-0.005, 0.015), "MSE(R^2)")
+
+```
+
+### Slutsatser från graferna
+1. Vad vi ser här är att sambandet mellan R och R2 förstås är deterministiskt. Vi kan framöver släppa R och fortsatt koncentrera oss på R2. 
+2. Vi ser att mindre R2 ger upphov till större bias (röd linje) och större R2 (grön linje) ger mindre bias. Varför? Kan undersökas närmare!
+3. Vi ser också (vilket bekräftar tidigare observerat mönster enl ovan) att mindre stickprovsstorlek ger högre bias och att biasen minskar med ökad stickprovsstorlek. 
+4. Vi ser dock också att den bias vi får nu är bet mindre än den vi observerat ovan. Det som skiljer sig är att vi hade p = 5 ovan men här bara p = 1. SN har teori om additiv bias men detta behöver undersökas!
+
+
+## Additiv bias
+
+Vi vill nu undersöka om det kan vara så att vanlig sampling "none" ger additiv bias för fler parametrar, dvs högre p. Vi gör detta mha paketet. Vi har dock ännu niget mått för bias men skapar åtm grafer där differensen framgår av avståndet mellan ref-linjen och boxploten.
+Se också: https://en.wikipedia.org/wiki/Mean_squared_error#Estimator
+Här nämns f.ö. att MSE tar lite för mkt hänsyn till outliers, vilket alltså bör få störst påverkan vid små stickprov. Där nämns därför att man ibland istället använder absolutvärde eller liknande istf kvadrat.
+
+
+## Relation mellan R2 och adjusted R2
+
+Detta stycke saknar egentligen sammanhang. Jag vill bara på ngt sätt tillvarata koden som jag tidigare skrivit för att visualisera relationen mellan R2 och dess justerade version för ett ökat antal parametrar..
+
+```{r}
+plot_adj_r2 <- function(n = 1e4, p = 1:100, r2 = .2) {
+  adj.r2 <- 1 - (1 - r2) * (n - 1) / (n - p - 1) 
+  plot(p, adj.r2, type = "l")
+  title(paste("R2 = ", r2))
+}
+
+par(mfrow = c(2,2))
+for (r2 in seq(.25, 1, .25)) plot_adj_r2(r2 = r2)
+```
 
 
 <!-- Denna rubrik ska alltid ligga allra sist eftersom referenser automatiskt kommer därefter -->
