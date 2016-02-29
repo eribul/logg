@@ -1,0 +1,32 @@
+---
+title: "Arbetslogg 2016 vecka 9"
+author: "Erik Bulow"
+date: "29 februari 2016"
+output: 
+  pdf_document: 
+    fig_height: 7
+    fig_width: 7
+    number_sections: yes
+    toc: yes
+bibliography: ../article1.bib
+---
+
+
+# Förberedelser
+
+```{r echo=FALSE, results='hide'}
+suppressPackageStartupMessages(library(dplyr))
+library(r2samplesize)
+knitr::opts_chunk$set(autodep = TRUE, cache = TRUE)
+```
+```{r}
+# Try it out!
+memory.limit(50000)
+options(samplemetric.log = TRUE)
+set.seed(123)
+```
+
+
+# 2016-20-29
+
+Har udner helgen roat mig med at läsa Sigma och bl a den först kända publicerade artikeln om statistik (från 1600-talet). Intressant kuriositet även om det kanske inte har ngn direkt nytta för jobbet just nu.
