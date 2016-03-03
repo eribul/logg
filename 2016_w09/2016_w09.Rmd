@@ -27,6 +27,207 @@ set.seed(123)
 ```
 
 
-# 2016-20-29
+# 2016-02-29
 
 Har udner helgen roat mig med at läsa Sigma och bl a den först kända publicerade artikeln om statistik (från 1600-talet). Intressant kuriositet även om det kanske inte har ngn direkt nytta för jobbet just nu.
+
+
+
+
+# 2016-03-03
+
+Jobbar hemifrån med att läsa. 
+
+
+
+## Läsning av [@Kowalski1972]
+
+Behandlar sampling från icke bivariat normalfördelning.Jämförr (ej $r^2$) mot normalfördelning.Undersöker tidigare konflikter om robusthet hos $r$.
+Nämner att Fisher redan 1915 utvecklade en exakt formel för samplingsfördelningen av $r$ då underliggande data bivariat normalfördelad. 
+
+$$f_N(r|\rho) = \frac{2^{N-3}(1-\rho^2)^{(N-1)/2}(1-r^2)^{(N-4)/2}}{\Gamma(N-2)\pi} \sum_{j = 0}^\infty \frac{(2r)^j}{j!}\Gamma^2[(N+j-1)/2]$$
+
+och då $\rho = 0$:
+
+$$f_N(r|\rho=0) = \frac{\Gamma[(N-1)/2]}{\Gamma[(N-2)/2]\sqrt{\pi}}(1-r^2)^{(N-4)/2} $$
+
+Tycker dok inte det är så tydligt att just [@Fisher1915] anger detta men är förmodligen bara lost in notation. I vilket fall som helst alltså oändlig serie och bara för $r$, ej $r^2$.
+Detta anges också av [@Hotelling1953] men det är först i [@Hogben1968] som resultatet utvecklas för $r^2$.
+
+Redan åren efter [@Fisher1915] gjordes en del studierav fördelningens robusthet. Ibland baserat på teoretiska formler, ibland på monte carlo-simuleringar. Åsikterna gick brett isär huruvida fördelningen var robust eller inte. Detta gås igenom med referernser till olika artiklar i avs 2.1. Observera dock att jämförelserna endast avser normalfördelning och ej beta. Här finns alltså kanske fortfarande ett utrymme för att jämföra mot vanlig betafördelning. De flesata dock överrens om att svårigheter uppstår främst då $|\rho| \lesssim 1$. Lättast att finna likheterna då $\rho \approx 0$.
+
+**Alltså:** de flesta är överrens om att $r|\rho=0 \sim N$ men $r|\rho \neq 0 \nsim N $. Skulle motsv att $r^2|\rho=0 \sim \Chi^2_1$
+
+Förklarar att tidiagre resultat som pekat påicke robust fördelningsantagande i själva verket kan härledas till att man på den tiden saknade hjkälpmedel (datorer) för att kunna beräkna saker ordentligt. Nu vill han kolla på detta igen med hjälp av modern teknik. I slutet av 1960-talet undersöktes också approximationer mha fouriertransformer. Här skapas en sådan formel (men den är fortfarande ganska icke intuitiv) för att kunna användas vid fortsatta studier. 
+
+Resultatet visar att fördelningen alls icke var så robust som man tidigare antagit. UNdersökning görs med flera olika typer av data från olika fördelningar (mixade normal, exponential etc).
+Motsäger också t ex tidigarte studie som påstått sig funnit robust resultat i intervallet $\rho \em [.1, .8], n = 5$. KOnstateras också att andra korrelationsmått såsom kendals och Spearman är att föredra i en del fall (vi har ju förstås inte motsvarande situation hos oss då vi betraktar $r^2$).
+
+
+
+
+## Läsnig av [@Barrett1974]
+
+Handlar nu äntligen om $r^2$. Väldigt kort artikel, 2 sidor med endast 4 referenser (innehåller f.ö. en annons ... för en statistikkurs).
+
+Kritiserar att man tar $R^2 = r^2$ som enda mått för regressionens giltighet. Föreslår att man också använder konfidensintervall etc för att undersöka goodnes-of-fit etc. Menar att många övertolkar nyttan av koefficienten och ger den mening som den egentligen saknar.
+
+Menar att en linjär regressionsmodell med brant lutning kan ha högt $r^2$ utan att man för den sakens skullfår bättre prediktioner än för en modell med lägre $r^2$ men mindre brant lutning. Ställer också upp en tabell över hur $r^2$ ökar med ökad lutning (rotation av data). Går mot 1 då vinkeln på slop går mot 90 grader. 
+
+Innehåller inget som är av direkt relevansjust nu men en lite intressant side note.
+
+
+
+## Läsning av [@Claudy1978]
+
+Behandlar studie av empiriskt utvecklad ekvation för multiple regression coefficient. Nämnar avvägningsproblem med stickprovsstorlek i förhållande till validering för cross-validation. Beskriver att regression utvecklades för designade experiment med fixt X och att det inte riktigt stämmer med förutsättningarna inomsurvey eller psykologisk forskning. I dessa fall måste man räkna med sampling och measurement errors även på de oberoende parametrarna. Nämner att det också finns metoder att hantera då $x$ är stokastisk variabel men att formler etc för detta är så komplexa att de sällan används (kallas Random-X model istf Fixed-X model).
+
+**OBS!!!** Här står att:
+
+> Application of estimatiojn procedures based on the Fixed -X model to Random-X data causes an over-fitting of the regression surface to the available data. The regression surface is fitted to the sample specific error varianceas well as to the systematic trends of the population. This over-fitting, or error-fitting, results in the sample multiple correlation coefficient overestimating the actual population multiple correlation. 
+
+Detta är kanske vad vi ser då vi överskattar $r^2$ med $p> 1$? Dvs förklaring till att vår bias inte bara är additiv utan dessutom ökar lite mer än så för varje ökning av $p$?
+
+Detta är bakgrunden till adjusted $R^2$ enl [@Larson1931] (tillskrevs B Smith), sedan modifierad till dagens form av [@Wherry1931]. Men som ju senare visade sig vara biased och ist leda till underskattning av $\rho$ (nämner också nya versionen av [@Olkin1958] etc). Även senare approximationer av dessa diskuteras. 
+
+Nämner också att cross-validation tenderar underskatta $\rho$ (se [5]).
+
+Nämner speciella formler för skattning av $\rho$ vid korsvalidering! (Man hade ännu inte 10-fold etc men åtm 2-fold). Intressant! Finns för både fixed och random x.
+
+Visar fig 1 som påminner om våra liknande resultat med jämförelse av $\rho, r$ där $\r$ överskattar $\rho$ men närmar sig assymptotiskt. Dock med crass-validerings-$r/\rho$ istf adjusted $R^2$ som vi hade. 
+
+
+Gör en simuleringsstudie som tycks väldigt lik vår. Använder olika typer av fördelningar, interkorrelationsmatris och antal oberoende variabler (max 5). Dock populationer med 500 fall istf 1e6. Endast 400 samples totalt från ursprungspopulationen, 100 av varje storlek 20, 40, 80 och 160.
+
+Man antar här att 500 är tillräckligt för att approximera oändligheten (var det Fisher eller t om Pearson som tyckte man skulle ha åtm 1000 i stickprovet.)?
+
+**OBS!** Här tillåter man alltså en variation av correlationsmatrisen som kan vara intressant och som kanske kan undersköas även hos oss?
+
+Resultat visar att korsvalidering ger bäst resultat. På den tiden ifrågasatte man dock om det var värt den extra tiden och kraften att tilläpa korsvalidering. Ett argument som antagligen är mindre relevant idag. 
+
+Föreslår (på empirisk grund) en kompromiss som dels ska var lika unbias som vid korsvalidering men som inte ska kräva just korsvalidering då det anses för krångligt. Formeln funkar bra för större stickprov men för upp till 20 är änd¨korsvalidering bättre.
+
+$$\hat{\rho} = \sqrt{1 - \frac{(N-4)(1-r^2)}{N-n-1}(1 + \frac{2(1-r^2)}{N-n+1})}$$
+
+Dock saknas en parentes i formeln men jag tror det är så den ska se ut. 
+
+Föreslår att denna formel används vid tillräcklig stickprovsstorlek men kan inte erbjuda ngn teoretisk motivering.
+
+Påminner docj att [@Skidmore2011] ej fann denna formel överlägsen utan istället håller fast vid [@Olkin1958]. Påminner f.ö. om intressant uppställning i tabell 3 [@Olkin1958] som också jämför för $r^2=.01$.
+
+Noteras f.ö. att studien sponsrats av NASA avseende datorresurser :-)
+
+
+
+
+## Läsning av [@Konisho1978]
+
+Föreslår approximativ fördelning för sample correlation coefficient, dvs $r$, inte $r^2$ (från Hiroshima!).
+
+Avser endast då grunddata bivariat normalfördelad. Sägs vara bättre än tidigare försök och ganska enkel. Tycker dok ändå att den ges av en hyfsat komplex formel. Kan heller inte bevisas teoretiskt att detta är den bästa lösningen. Involverar Fishers z-transform.
+
+
+
+## Läsning av en blogg
+
+Enligt Dave Giles gäller att
+http://davegiles.blogspot.se/2013/10/more-on-distribution-of-r-squared.html
+
+$$r^2|\rho = 0 \sim Beta(\frac{k-1}{2}, \frac{n-k}{2})$$ där $k = $ vårt $p+1$ och $n = $ stickprovsstorlek. Nämner dock bara i förbigående (som svar på en kommentar att det blir ickecentral beta då $\rho \neq 0$).
+
+Samme Gilers noterar också (http://davegiles.blogspot.se/2013/05/good-old-r-squared.html)
+> Whenever the bias of R2 is noticeable, its standard deviation is several times larger than this bias.
+
+> First, the coefficient of determination is a sample statistic, and as such it is a random variable with a sampling distribution. Second, the form of this sampling distribution depends on the X data, and on the unknown beta and sigma parameters. Third, this sampling distribution gets distorted if the regression errors are autocorrelated. Finally, even if we have a very large sample of data, R2 converges in probability to a value less than one, regardless of the data values or the values of the unknown parameters.
+
+
+
+
+## Läsning av [@Alam1979]
+
+Denna artikel finns publicerad men kostar då pengar. Den version jag läst tycks vara digitalisering av mikrofilm och originalet skrivet på skrivmaskin.Därmed lite svårläst.
+
+Behandlar $r$, ej $r^2$. Begr till bivariat normalfördelning. 
+
+Ärligt talat en inte så värst angenäm läsning. Teoretiskt förslag som jsg tvivlar på blivit så uppmärksammat. 
+
+
+
+
+## Läsning av [@Huberty1980]
+
+Behandlar just multiple correlation och $R^2$! Dock främst en jämförelse mellan sedan tidigare kända formler såsom [@Ezekiel1929] och [@Olkin1958].
+
+Nämner att för $\rho = 0$ gäller:
+
+$$E[R^2] = \frac{p}{N-1}$$
+
+Käns som att denn artikel gör mkt av det vi vill göra. Välskriven och pedagogisk. Tillämpas på verklig fata (ej simulerat).
+
+Man skiljer på modeller för att förstå samband eller för predektion på sätt som jag inte riktigt sett tidigare.
+
+**OBS!** Här noteras också (vilket jag själv tidiagre också nämnt) att [@Ezekiel1929] först använde $N$ där han senare använde $N - 1$.
+
+Nämner jack-knife som alternativ till adjusted $R^2$.
+
+Använder lånade data set med betyg och olika elevdata som predektorer. Två dataset varav första med $p = 9$.
+
+Stickprovsstorlek på 50.
+
+SKriver att om $N/p>20$ så kan "shrinkage" negligeras.
+
+Endast tio upprepade försök per stickprovsstorlek. 
+
+Tra olika $\rho^2$, samtliga mellan 0,3 och 0,4.  
+
+Från dessa stickprov mättes:
+
+* precision via standardavvikelse av avvikelse mellan $\rho^2$ och $\hat{rho}$. 
+* accuracy via dess medelvärde.
+
+Slutsatser: [@Ezekiel1929] och [@Olkin1958] hyfsat lika resultat.
+Mer bias för högre $p$. Biasen var väldigt liten (notera n = 50) och saknade signifikant avvikelse från 0. Alla adjusted $R^2$ kan bedömas likvärdiga.
+
+Noterar att adjusted $R^2$ kan bli negativt men att detta motsvarar en riktigt dålig passning (väldigt litet $R^2$ och $n$).
+
+
+
+
+## Läsning av [@Wood1986]
+
+Kritiserar generaliseringen att kvadrera $\rho$ beräknat för korrelation för att få ett värde som motsvarar $R^2$ vid regression. Säger alltså inte emot att coefficient of determination beräknas så men menar att man inte kan alltid kan tolka $\rho^2$ som sådan koefficient ifall det inte var syftet från början. Detta eftersom korrelation baseras på stokastiskt X medan regression baseras på fixt X.Hänvisar också til [@Warren1971] ang detta.
+
+Wood kallar dessa felaktiga resonemang för "vulgarised knowledge".
+
+> "bias (for correlation) and precision (for regression) tend to work against each other. One should determine which of correlation or regression is appropriate to the problem and select the sampling method accordingly 
+
+Hela artikeln känns polemisk och lite "von oben" men kommunicerar å andra sidan ganska klart sin ståndpunkt.
+
+Argumenterar också för att korrelationsvärden inte ska tillmätas alltför stort värde rakt av utan att man måste undersöka hela fördelningen grafiskt. Detta kan förstås vara svårt vid publicering men det bör åtm ske i explorativt syfte. 
+
+
+
+## Läsning av [@Hawkins1989]
+
+Väldigt kort. Handlar om Fisher z. Teoretisk, många formler. Kopierar abstract:
+
+> A simple derivation of the asymptotic distribution of Fish- er's Z statistic for general bivariate parent distributions F is obtained using U-statistic theory. This method easily reveals that the asymptotic variance of Z generally depends on the correlation $\rho$ and on certain moments of F. It also reveals the particular structure of F that makes the asymptotic variance of Z independent of $\rho$, and shows that there are many distributions F with this property. The bivariate normal is only one such F.
+
+Refererar till [@Gayen1951] som visade samma sak men då endast för Edgeworth-fördelningar. 
+Detta bevis gäller alla fördelningar med ändligt fjärdemoment (kurtosis) men bara approximativt då $n \rightarrow \infty$
+
+
+
+
+## Läsning av [@Nagelkerke1991]
+
+Kort. 2 sidor och fgå referenser. Teoretisk.
+
+Tar här för givet att coefficient of determination = multiple correlation coefficient.
+
+Beskriver generalisering som kan användas utanför linjär regression. Baseras på maximum likelihood. Har egentligen introducerats redan tidigare av bl a Cox et al. Beskriver många fina egenskaper men också ett problem som dock går att överkomma. 
+
+
+
+
+
