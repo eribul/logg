@@ -30,3 +30,502 @@ set.seed(123)
 # 2016-20-29
 
 Har udner helgen roat mig med at läsa Sigma och bl a den först kända publicerade artikeln om statistik (från 1600-talet). Intressant kuriositet även om det kanske inte har ngn direkt nytta för jobbet just nu.
+
+## Läsning av [@Pearson1895]
+
+(Läste egentligen denna förra veckan.)
+
+Är lite okklar över referenserna. Tror jag hittade referens som pekade på denna artikel som upphov till korrelationskoefficienten (men hittade också annan referens som ist pekade på [@Pearson1895]). Men den nämns i denna arikel ocså och då denna publicerades före den senare så bör det kanske vaar sant. Men här hänvisas också till Galtons formel så egentligen var det inte helt nytt.
+
+Väldigt kort note som egentligen är del av längre paper som inte han färdigställas pga hälsoproblem.
+
+
+
+## Läsning av [@Pearson1896]
+
+Sägs vara källan till korrelationskoefficienten. Framkommer dock att konceptet de facto var känt sedan tidigare. Texten utgår från ganska praktiska exempel med heriditet och sexuel reproduktion etc. Ger äran till Bravais och delvis också till Edgeworth, Galton och Weldon.
+Innehåller rtedan här en del teori om fördelning baserat på $\chi^2$ etc. Refereras också till $r$ som Galtons funktion (Galton myntade f.ö. även uttrycket regression). Redan då användes normalapproximation. Texten utgår från ganska teoretiska beräkningar men konstateras att den praktiska formeln för att beräkna $r$ är den Bravais föreslagit men utan att ha visat att det verkligen var den bästa formeln. Se s 265 för formeln. 
+
+Konstaterar redan här att:
+
+> Thus we may say that with sufficient accuracy for most cases the standard deviation of a coefficient of correlation is:
+
+> $$\frac{1 - r^2}{\sqrt{n(1 + r^2)}}$$
+
+> or its probable error = 
+$$.674506 \frac{1- r^2}{\sqrt{n(1 +r^2)}}$$
+[...]
+It will be sufficient therefore, for most practical purposes to assume that the probable error of a coefficient of correlation 
+
+$$= .674506 \frac{1 - r^2}{\sqrt{n(1+r^2)}}$$.
+
+Här talas dock också om ganska stora stickprovsstorlekar såsom $n = 1000$. Skriver om ett dataset med 200 samlpes att:
+
+> The number is not sufficientlty great to make the probable error of quite small enough dimensions in several cases, and so allow of definite conclusions. 
+
+(F.ö. ett sample baserat på övre medelklass så kudne därav inte heller nyttjas för generella slutsatser om populationen. Återkmmer även på s 273 till att vi inte kan anta normalfördelning här. Refererar till att normalfördelning kunde antas vid studie av 900 kraniemätningar utförda vid tidigare studie.)
+
+f.ö. undersöks i artikeln relationen mellan föräldrars längd och kön på avkomma. Konstateras (med viss reservation) att t ex längre fäder tenderar få döttrar i ngt högre utsträckning än söner. Dock svårare att se mönster för mödrar. Ser även att korrelation för längder tycks ärvas starkare på fädernet än mödernet även sett över flera generationsled. 
+
+
+F.ö. intressant att artikeln blandar både teori men också ganska utförliga praktiska beskrivningar. Känns både konrekt och väl underbyggt på samma gång.
+
+Gör inget fördelningsantagande för data vi samplar ifrån. 
+
+Noterar f.ö. att han nämner korrelation och standradavvikelse etc men gör inga referenser til kovarians. 
+
+Behandlar också fallet med tre grupper att jämföra och därmed tre parvisa korrelationer. 
+
+Görs också studier av korraltion av ansiktsbehåring, dvs ärftligheten av detta. Även referenser till att färgblindhet ärvs från morfar till dotterson. 
+
+Behandlar även fall med 4 korrelationer. Denna teknik tycks användas där man idag istället skulle använda regression i modern mening. 
+
+Efter ett par generationer kommer familjära särdrag suddas ut varpå släkten alltmer liknar populationen. Detta gäller även vid selektive breeding. Skulle behövas experiment för att empiriskt utröna effekten av selektive breeding etc! :-)
+
+
+
+## Läsning av [@Nemes2009]
+
+Tipsad av denna av SN. Inte för att ämnet i sig är direkt relevant men då upplägget på själva artikeln kan antas liknande nu föreliggande förutsättningar. Konstaterar bias för mindre stickprovsstorlekar. Även här ses approximatil normalfördelning av oddskvoten för stora n.
+Finns även här en skev bakomliggande fördelning. Även här är problemen kända teoretiskt men inte bland praktiker. Fnins också förslag på bias-korrected versioner. 
+
+Ger ingen rekommendation om sample size men konstaterar att andra föreslagit minst 100 och helst mer än 500. Diskret data kräver större smaple, liksom starkt korrelerade data.
+
+Biasen påverkar på så sätt att små stickprovsstorlekar påvisar större effekt än för större samples. 
+
+Beskriver risken med detta att man publicerar material som inte stämmer med verkligheten. Även problem vid metastudier då man inte tnker på detta då flera studier jämförs.
+
+På det hela taget mkt intressant och viktigt!
+
+
+
+## Läsning av [@Cowden1952]
+
+Handlar om multipel-partial correlation coefficient.
+Förklarar att "multiple correlation coefficient" är vår koefficient där observerad vs predicted values korreleras och där pred beror på en eller flera variabler. Artikeln inför också "multiple-partial correleation coefficient", en justerad correlation mellan utfall samt två eller fler oberoende variabler. 
+
+Innehåller mkt härledningar och teori. Känns dock inte helt relevant i sammanhangert så lämnar den ej färdigläst.
+
+
+
+## Läsning av [@Kymn1968]
+
+Det är känt sedan tidigare att:
+
+$$ F = r^2\frac{n-2}{1-r^2} \sim F_{1, n-2} $$
+
+samt 
+
+$$ t = r\frac{\sqrt{n-2}}{1-r^2} \sim t_{n-2} $$
+
+Denna artikel visar nu att 
+
+$$ S = \frac{1+r}{1-r} \sim F_{n-2, n-2} $$
+
+Fördelen med denna är att fördelningen är symmetrisk samt ev att $S$ inte beror på $n$ (men det gör ju å andra sidan $F$ så jag vet inte riktigt varför det skulle vara så stor skillnad).
+
+**OBS!** Bygger på att $x, y$ är bivariat normalfördelade och oberoende $\rho = 0$ så nyttan av detta kanske är begränsad?
+
+Noterar här att enligt [@Hotelling1953] krävs dock inte bivariat normalfördelning just då $\rho = 0$
+
+
+
+
+## Undersöker icke-central betafördelning
+
+Tar en avstickare och försöker skapa funktion för icke-central betafördelning. Noterar att:
+
+* x ska antas fix och har därmed ingen känd fördelning
+* 
+
+```{r}
+
+
+#' Parameters for the noncentral beta distribution of R2
+#'
+#' @param ncp1 first part of the con centrality parameter 
+#' as given by \code{\link{ncp1}}
+#' @param x object of class \code{\link{sim_data}}
+#' @return List with "shape1", "shape2" and "npc" parameters 
+#' as used for corresponding arguments in the \code{\link{Beta}}
+#' functions.
+#' @export
+r2_beta_param <- function(ncp1, x) {
+  stopifnot(ncol(x) == 2)
+  list(
+    shape1 = .5,
+    shape2 = (nrow(x) - 2) / 2,
+    ncp = ncp1 * sum((x$X1 - mean(x$X1)) ^ 2)
+  )
+} 
+
+
+#' Calculate the first half of the non centrally parameter of R2
+#'
+#' Calculate the non observal dependent part of the 
+#' centrality parameter used as argument 
+#' "ncp" in the \code{\link{Beta}} family of functions
+#'
+#' @param x object of class \code{\link{sim_data}}
+#' @return numeric vector of length one
+#' @export
+#' @examples
+#' ncp1 <- ncp1(sim_data())
+ncp1 <- function(x) {
+  stopifnot(ncol(x) == 2)
+  fit    <- lm(Y ~ ., data = x)
+  beta   <- fit$coefficients[2]
+  sigma2 <- var(fit$residuals)
+ (beta ^ 2) / (2 * sigma2)
+}
+
+#' The R2 disrtibution based on the Beta distribution
+#'
+#' @param fun one of the functions listed at \code{\link{Beta}}
+#' @param ncp1 value given by \code{\link{ncp1}}
+#' @param d object of class \code{\link{sim_data}} with columns 
+#' \code{Y} and \code{X1}.
+#' @param ... arguments passed to \code{fun} 
+#' @return Value returned by call to \code{fun}
+r2_beta <- function(fun, ncp1, d, ...) {
+  do.call(fun, c(r2_beta_param(ncp1, d), list(...)))
+}
+
+
+d <- sim_data(r2 = .5, p = 1)
+dsample <- dplyr::sample_n(d, 50)
+ncp_1 <- ncp1(d)
+# r2_beta(dbeta, ncp_1, d = dsample, x = seq(0.01,1,.01))
+par(mfrow = c(1, 2))
+curve(r2_beta(dbeta, ncp_1, d = dsample, x = x))
+abline(v = .5)
+curve(r2_beta(pbeta, ncp_1, d = dsample, q = x))
+abline(v = .5)
+```
+
+
+Är detta enligt förväntan? Ser ut som att vi underskattar $r^2$ väldigt grovt ...?
+
+
+# 2016-03-01
+
+Fortsätter titta på simuleringarna ovan. Gör om några ggr och finner att det nog bara var slump att det blve så biased.
+Beöhver simulera flera ggr men lite osäker på hur. Det bli rju olika fördelningar varje gång. Ska jag beräkna medelvärden för `npc` eller på ngt sätt för hela fördelningen?
+
+```{r}
+par(mfrow = c(1,1))
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x)); abline(v = .5)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+curve(r2_beta(dbeta, ncp_1, d = dplyr::sample_n(d, 30), x = x), add = TRUE)
+
+```
+
+
+## Diskussion med SN
+Är ovanligt och lite konstigt att fördelningen i detta fall beror på observerade data. 
+För t ex t- och F-fördelning finns ju ett beroende av frihetsgrad (stickprovsstorlek) men inte av själva datapunkterna. 
+Att ha ett sådant beroende känns lite märkligt då man på ngt sätt rättfärdigar ett observerat resultat genom teorier byggda på samma observerade resultat, vilket känns som ett cirkelresonameng. Å andra sidan är väl just detta anledningen till att $x$ enl teorin heller inte är att betrakta som en slumpvariabel utan som fix.
+
+Slutsatser:
+
+
+1. Det går inte att finna en enda teoretisk fördelning (facit) då den alltid kommer att bero på slumpen.
+2. Vad vi kan göra är att koncentrera oss på t ex olika moment av fördelningen. Vi kan t ex ta ett stickprov och för detta beräkna både den semiteoretiska fördelning detta ger upphov till, samt skatta R2 direkt. Vi jämför sedan skattningen mot värdet givet av väntevärdet givet av fördelningen. Vi upprepar många ggr och plottar dessa värden med qqplot för att undersöka ev bias. 
+2. Kan också vara av värde att undersöka ifall det finns metod att skatta betafördelningens parametrar utifrån data på ngt mer generellt sätt. 
+
+Vi försöker göra enl (2) ovan.
+Dock behöver vi för detta jämföra skattningen inte mot mean utan mot mode för att få det korrekt. Dock svårt att finna ngn formel för mode av icke cenrtal betafördelning. Finns funktion `modeest::betaMode` men den funktionen hanterar ändå inte detta. 
+
+Enl [@Park1964] krävs numerisk approximation för skattning av mode för icke-central beta. Formel presenteras i (3.2) men bygger på antaganden (såsom att $r^2 \rightarrow 1$), vilket gör det hela ointeressant. Ett alternativ blir då att skatta ett numeriskt värde (såsom vi också gjort vid tidigare simulering), vilket vi lätt kan göra om vi antar att fördelningen är unimodal, vilket vi här kan. Observera dock att vi här inte ska basera mode-skattningen på vårt slumpmässiga urval utan på fördelningens värde för $\forall x: x \in [0,1]$ för relevant fördelning. Kanske skulle man också kunna undersöka metoder för att finna mode via paketet `modehunt`. Jag har ännu inte fördjupat mig i det och vet således inte ifall det skulle ge annat resultat än min egen mode-funktion.
+
+
+```{r}
+
+r2_beta_mode <- function(ncp1, d, ...) {
+  x <- seq(0.001, 1, .001)
+  y <- r2_beta(dbeta, ncp1 = ncp1, d = d, x = x, ...)
+  x[y == max(y)]
+}
+
+# Prepare data sets
+d <- sim_data(r2 = .5, p = 1)
+ss <- subsamples(d, n.max = 30, N = 1000)
+ncp_1 <- ncp1(d)
+
+# Calculate "theoretical modes" and "observed r2"
+modes <- vapply(ss, function(d) r2_beta_mode(ncp_1, d), numeric(1))
+r2s <- metrics(ss, n.sample = 30)$Rsquared
+
+# Plot and compare
+par(mfrow = c(1, 2))
+plot(r2s, modes, xlim = c(0, .8), ylim = c(0, .6))
+abline(0, 1)
+qqplot(r2s, modes)
+```
+Vi ser här att vår teoretiska mode underskattr vårt observerade värde. Är det trots allt så att vi inte bör jämföra mot mode utan mot mean? Det finns visserilgen en teoretisk formel för att beräkna mean av icke cenrtal betafördelning men den behöver i sin tur en confluent hypergeometric function. Det finns dock fler versioner av detta och de som finns implementerade i R tycks inte motsvara den här aktuella. Vi får därför skatta mean pss som vi tidigare skattade mode. Å andra sidan har vi också en formel för väntevärdet av $r^2$ för selektive samlpnig given av [@Warren1971] avs 2.2. Även här refereras till en confluent hypergeometric function men då denna har endast tre variabler är sannolikheten större att denna är samma som t ex `hypergeo::genhypergeo`. Dock krävs fler parametrar som jag inble blir riktigt klok på (tycks smo att man ska slumpa $n$ värden från varje punkt tagen med selective samplnig men jag får inte riktigt ihop det).
+
+
+```{r}
+r2_beta_mean <- function(ncp1, d, ...) {
+  x <- seq(0.001, 1, .001)
+  y <- r2_beta(dbeta, ncp1 = ncp1, d = d, x = x, ...)
+  sum((y / sum(y)) * x)
+}
+
+# Calculate "theoretical modes" and "observed r2"
+means <- vapply(ss, function(d) r2_beta_mean(ncp_1, d), numeric(1))
+
+# Plot and compare
+par(mfrow = c(2, 2))
+plot(r2s, means, xlim = c(0, .8), ylim = c(0, .8), main = "Comparison to mean")
+  abline(0, 1); points(.5, .5, lwd = 5, col = "red")
+qqplot(r2s, means, xlim = c(0, .8), ylim = c(0, .8), main = "Comparison to mean")
+  abline(0, 1) 
+plot(r2s, modes, xlim = c(0, .8), ylim = c(0, .8), main = "Comparison to mdoe")
+  abline(0, 1); points(.5, .5, lwd = 5, col = "red")
+qqplot(r2s, modes, xlim = c(0, .8), ylim = c(0, .8), main = "Comparison to mode")
+  abline(0, 1) 
+```
+
+Röda prickar markerar $\rho^2$ men observera här att värden på y-axeln (mean resp mode) inte syftar till att approximera det teoretiska värdet utan värdet för $r^2$, vilket vi vet underskattar $\rho^2$ för varje enskild observation. Om $r^2$ skulle följa den ickecenrtala betafördelningen skulle vi dock se observationer centrerade kring linjen i graferna. Det gör vi inte. Vad vi ser är istället att den teoretiska fördelningen tycks underskatta observerade $r^2$ systematiskt. Vi ser endast marginell skillnad mellan mode och mean (tyder väl på att den teoretiska fördelningen är mindre skev än den verkliga?) men möjligt att mode är lite bättre (vilket stämmer med teorin).
+
+**Slutsats:** Den icke centrala betafördelningen enligt [@Hogben1968] underskattar $r^2$.
+
+Men för att sammanfatta så avviker jag också från teorin enl:
+
+1. Mitt x slumpas (ej fixt). Vet dock inte riktigt hur detta bör påverka resultatet.
+2. Mode och mean från fördelningen är skattade på kanske inte allra bästa sätt? Ett alternativ är kanske att nyttja fördelningen till att slumpa fram en massa värden och sedan beräkna mode och mean av det. Tycker dock inte det borde bli ngn skillnad ... men kan ju förstås testa ...
+
+```{r}
+
+mode <- function(d) {
+  z <- density(d)
+  z$x[z$y == max(z$y)]
+}
+
+# Mode baserat på simulering
+r2_beta_mode_r <- function(ncp1, d, ...) {
+  y <- r2_beta(rbeta, ncp1 = ncp1, d = d, n = 1e4, ...)
+  mode(y)
+}
+modesr <- vapply(ss, function(d) r2_beta_mode_r(ncp_1, d), numeric(1))
+
+# Kollar om det finns ngn skillnad mellan de två sätten 
+t.test(modes, modesr)
+
+# Mean baserat på simulering
+r2_beta_mean_r <- function(ncp1, d, ...) {
+  y <- r2_beta(rbeta, ncp1 = ncp1, d = d, n = 1e4, ...)
+  mean(y)
+}
+meansr <- vapply(ss, function(d) r2_beta_mode_r(ncp_1, d), numeric(1))
+
+# Kollar om det finns ngn skillnad mellan de två sätten 
+t.test(means, meansr)
+```
+
+Alltså ingen skillnad för mode. Skillanden för mean är större men fortfarande inte signifikant.
+
+```{r}
+par(mfrow = c(1, 2))
+plot(r2s, meansr, xlim = c(0, .8), ylim = c(0, .8), main = "Comparison to mean")
+  abline(0, 1); points(.5, .5, lwd = 5, col = "red")
+qqplot(r2s, meansr, xlim = c(0, .8), ylim = c(0, .8), main = "Comparison to mean")
+  abline(0, 1) 
+```
+
+Noterar f.ö. att endast [@Warren1971] (samt en artikel som tycks irrelevant i sammanhanget) refererar till [@Hogben1968]. Gissar därför att man inte har nyttjat dessa resultat i ngn större utsträckning. Det finns fler referenser till [@Warren1971]. Jag har gått igenom dem och lagt till i läslistan.
+
+Hade kanske vart intressant att t ex också jämföra med normalfördelning för att se vilken fördelning av dessa som är bäst och i så fall hur stor skillnaden kan vara. 
+
+
+
+## Läsning av [@fitdistrplus]
+
+Utgår från ML-skattningar. Kan skatta både fördelning och dess parametrar. Kan också baseras på "maximum goodness-of-fit".
+
+`descdist`-funktionen medger också att beräkningar kan ta hänsyn till bias eller inte.
+Tyvärr tycke det inte möjligt att inkludera ickecentraliseringsparametern för skattning utan bara shape-paramterarna. Har försökt studera koden i paketet men finnser där ingen klar förklaring till varför. Kan det vara ngn skillnad som finns inbyggd i själva betafunktionerna?
+Samtliga Beta-funktioner nyttjar intern C-kod men jag kan se att man gör tydlig skillnad på just `ncp`-parametern (dock baserat på om den är missing och inte 0, vilket faktiskt är default ... förstår inte riktigt!?)
+
+Går app skapa enskilda plottar av `fitdist`-objekt mha `denscomp`, `cdfcomp`, `qqcomp`och `ppcomp`.
+
+
+```{r, results="hide"}
+library("fitdistrplus")
+ss <- sim_data(r2 = .5, p = 1) %>% 
+  subsamples(n.max = 500, N = 1000)
+m <- metrics(ss, n.sample = c(10, 20, 30, 50, 100, 200, 300, 400, 500))
+R2 <- as.data.frame(m$Rsquared)
+
+# Tycks här som att vi har en betafördelningt för n upp till ca 30
+# Dock för n = 200 tycks vi kunna använda gammafördelning för approximation
+# Från kanske n = 200 tycks normalapproximation kunna fungera bra. 
+par(mfrow = c(3, 3)); lapply(R2, descdist, boot = 1000)
+
+# Jag gör en större plot för just n = 200 för att kolla lite närmare på just detta
+# Ser här att en gammafördelning verkar kunna passa rätt bra.
+par(mfrow = c(1, 1)); descdist(R2[, 6], boot = 10000)
+
+# Ser här att en normalfördelning verkar kunna passa rätt bra vid n = 300
+par(mfrow = c(1, 1)); descdist(R2[, 7], boot = 10000)
+
+# Vill testa att anpassa en betafördelning
+# Tydligen estimeras bara shape1 och shape2, inte ncp (vilket gör att resultatet inte blir jättebra)
+
+lapply(R2, function(x) {
+  fit <- fitdist(x, "beta")
+  plotdist(x, "beta", para = list(shape1 = fit$estimate[1], shape2 = fit$estimate[2]))
+})
+```
+
+Vid första anblick tycks det här som att den vanliga betafördelningen trots allt kanske kan passa någorlunda? (Dock inte för alltför små n!) 
+
+* Finns det ngn systematik i hur shape1 och shape2 skattas utifrån n? Hade vart jättenitressant i så fall!
+* Kan vi använda dessa betafördelningar och jämföra mot den ickecentrala betafördelning pss som ovan?
+
+
+
+# 2016-03-02
+
+Fortsätter leka lite med paketet `fitdistrplus`
+
+## Testar att modifera beta-funktionerna för att också skatta ncp (misslyckas)
+
+```{r}
+pbeta <- function(q, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE) 
+  .Call(C_pnbeta, q, shape1, shape2, ncp, lower.tail, log.p)
+dbeta <- function(x, shape1, shape2, ncp = 0, log = FALSE)
+  .Call(C_dnbeta, x, shape1, shape2, ncp, log)
+qbeta <- function(p, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE)
+  .Call(C_qnbeta, p, shape1, shape2, ncp, lower.tail, log.p)
+rbeta <- function(n, shape1, shape2, ncp = 0) {
+        X <- rchisq(n, 2 * shape1, ncp = ncp)
+        X/(X + rchisq(n, 2 * shape2))
+    }
+fitdist(R2[, 1], "beta")
+
+```
+
+Detta upprepades också med alla tillgängliga val av method men utan at lyckas. 
+
+
+
+## Jämför resultat för olika fördelningar
+
+Vi har sett ovan att beta, gamma och normalfördelning kan funka för olika stickprovsstorlekar. 
+Vi kan undersöka detta.
+
+
+```{r}
+par(mfrow = c(3, 3))
+plot.legend <- c("beta", "gamma", "normal")
+fitdists <- function(x, distr = c("beta", "gamma", "norm")) 
+  lapply(distr, function(d) fitdist(x, d))
+
+denscomps <- function(m, distr = c("beta", "gamma", "norm"), ...) {
+  R2 <- as.data.frame(m$Rsquared)
+  lapply(R2, function(r2) {
+    denscomp(fitdists(r2, distr = distr), ...)
+    abline(v = attr(m, "real_Rsquared"), col = "blue")
+  })
+}
+denscomps(m, legendtext = plot.legend)
+```
+Käns som att vi efter detta ganska klart kan förkasta gammafördelningen som lämpli kandidat men kanske att den ändå skulle passa bättre för mindre $\rho$ (då den ju har en pos eskevhet).
+
+
+**OBS!** Denna chunk sparas för att kunna härleda vad som gjort men ej visat sig fruktsamt. 
+Koden ska inte behöva anropas etc på nytt!
+```{r, results = "hide"}
+distplots <- function(r2 = .2, p = 1) {
+  ss <- sim_data(r2 = r2, p = p) %>% 
+    subsamples(n.max = 500, N = 1000)
+  m <- metrics(ss, n.sample = c(10, 20, 30, 50, 100, 200, 300, 400, 500))
+  denscomps(m, legendtext = plot.legend)
+}
+
+par(mfrow = c(3, 3))
+lapply(c(.2, .5, .8), distplots)
+```
+Finner att gamma de facto passar bättre för just små $\rho$ men att beta ändå är ett bättre alternativ. Ser därmed ingen anledning att fortsätta studera gamma-fördelningen i detta sammanhang.
+Ser också att resultaten är ganska samstämmiga för $n> 200$ så begränsar mig dit men tar istället in lite fler mellanliggande värden som kanske kan vara intressanta. Värjer mig nu heller inte för att ta ännu fler $\rho$.
+
+```{r, results = "hide"}
+distplots <- function(r2 = .2, p = 1, distr = c("beta", "norm"), 
+                      n.sample = c(5, 10, 20, 30, 50, 75, 100, 150, 200), ...) {
+  ss <- sim_data(r2 = r2, p = p) %>% 
+    subsamples(n.max = max(n.sample), N = 1000)
+  m <- metrics(ss, n.sample = n.sample)
+  par(mfrow = c(floor(sqrt(length(n.sample))), ceiling(sqrt(length(n.sample)))))
+  denscomps(m, distr = distr, legendtext = distr, main = paste("rho = ", r2, ". p = ", p), ...)
+}
+
+lapply(seq(0, .9, .1), distplots)
+```
+
+**Slutsatser:** Vi kan se att beta-fördelningen ger alldeles för höga skattningar för väldigt små $\rho$. Problemet är alltså inte att det inte blir några data men att y-axeln dras ut så mkt att dessa värden inte syns. När $\rho$ blir större blir det lättare att anpassa fördelning ävendå $n$ mindre. I några fall kan normalfördelningen tyckas t o m bättre än beta men gissar att detta trots allt beror på slumpen. 
+När $\rho$ dock ökar till att ligga närmare $.5$ börjar fördelningen krumbukta sig ganska ordentligt ör ökande $n<20$. För $\rho > .6$ tycks det som att betafördelningen inte riktigt når upp till högsta värdena i histogrammet. I detta avseende är t o m normalfördelningen bättre. För $n> 20$ tycks det dessutom som att beta och normal är approximativt likvärdiga. Att högsta stapeln ligger över betafördelningens mode tycks f.ö. hålla i sig för växande $\rho$ men effekten avtar med mindre $n$ för ökade $\rho$.
+
+## För ökande p
+
+Vi vill också undersöka effekten om vi ökar antalet oberoende variabler (p)
+
+### p = 2
+```{r, results = "hide"}
+lapply(seq(0, .9, .1), distplots, p = 2)
+```
+
+
+### p = 3
+```{r, results = "hide"}
+lapply(seq(0, .9, .1), distplots, p = 3)
+```
+
+### $p > 3$ 
+
+När jag provar med större p får jag konvergensproblem av `optim` enl kod 100 på `?mle`
+
+Sedan är det förstås viktigt att också titta på CDF, QQ och PP-plottar där QQ illustrerar lack of fit i svansarna och PP i mitten [@fitdistrplus]. Funktionen `gofstat` kan också användas för att få fram en del teoretiska värden som beskriver goodness of fit. I så fall kan Anderson-Darling statistican vara bra att undersöka då den ger vikt till svansarna. Men finns också brister. AIC/BIC kan rekommenderas vid jämförelse mellan olika fördelningar. 
+
+Går också lätt att få konfidensnitervall för paremeterskattningarna gm bootstrap via funktionne `bootdist`.
+
+
+## Läsning av [@distrMod]
+
+Väldigt lätt att t ex plotta en ickecenrtal betafördelning (här med defaultparametervärden).
+```{r}
+library(distrMod)
+B <- Beta()
+plot(B)
+```
+
+Skattningar sker via `MCEstimator` (`MLEstimator`) men för detta krävs en familj att skatta emot. Det fnins en `BetaFamily` men den omfattar inte ickecentral beta. Man kan defeniera en egen familj via `L2ParamFamily` (se t ex källkoden för `BetaFamily`). Dock är jag osäker på argumentet `L2deriv.fct`. Det ska bestå av tre funktioner i en lista där varje funktion av $x$ beskriver vänsterledet i $\frac{\partial \alpha}{\partial f} \ln{\hat{l}} = 0$ där $f$ är fördelningsfunktionen för beta, dvs ett uttryck för att finna maximum likelihood-estimatet (digamma = derivatan av gammafördelningen). Dessa funktioner går att beräkna analytiskt för betafördelningen men går det för ickecentral beta? 
+Fördelningsfunktionen finns här: https://en.wikipedia.org/wiki/Noncentral_beta_distribution#Probability_density_function
+
+Om vi sedan deriverar Betafunktionen fnins det uttrycket här: https://en.wikipedia.org/wiki/Beta_function#Derivatives
+
+
+
+
+
+# Referenser
+
