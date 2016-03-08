@@ -1,0 +1,644 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={Erik Bulow},
+            pdftitle={Arbetslogg 2016 vecka 10},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Arbetslogg 2016 vecka 10}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Erik Bulow}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{07 mars 2016}
+
+
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\section{Förberedelser}\label{forberedelser}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Try it out!}
+\KeywordTok{memory.limit}\NormalTok{(}\DecValTok{50000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 50000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{samplemetric.log =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{2016-03-07}\label{section}
+
+\subsection{Läsning av (Cattin 1980)}\label{lasning-av-cattin1980}
+
+Handlar bl a om multiple correlation coefficient i CV. Står att
+skattningar för regressionen sker via OLS. Gör skillnad på fixed och
+random model men skriver om båda.
+
+Är långt ifrån enda källan men också här ges den ganska pedagogiska
+formeln för \(R^2\) som vi kanske kan återanvända:
+
+\[R^2 = 1 - \frac{\sum_{i = 1}^N (Y_i + \hat{Y}_i)^2}{\sum_{i = 1}^N (Y_i + \bar{Y}_i)^2}\].
+
+Nämner att man tidigare funnit att adjusted \(R^2\) enl (Wherry 1931)
+(dvs (Ezekei 1929)) har en bias som mest uppgår till \$.1 / N \$ om
+\(x\) fixed (men tar inte hänmsyn till \(\rho\) \ldots{} kanske därmed
+en referens att kolla upp?)
+
+Nämner också att (Olkin and Pratt 1958) är biased ty oändlig serir
+trunkeras.
+
+Nämner att det även finns flera källor som utvecklat adjusted-versioner
+spec för cross-validatiln men att även dessa tenderar vara biased. Här
+rekommenderas olika versioner för fixed resp randmo regression.
+
+Gör också egna simuleringar i fallet då \(p = 1\), dvs för vanliga
+\(r^2\). Finner att bias är ganska liten men att korrigernig kan behövas
+då \(\rho \leq .4, N < 50\).
+
+Förespråkar att \(R^2\) justeras mha ngn föreslagen formell hellre än
+via CV då detta anges ge mindre bias (och förstås mindre
+beräkningsintensivt).
+
+Poängterar vikten av att OLS används vid skattning och menar att terorin
+falerar vid t ex stepwise linear regression och liknande (ty
+prediktorerna måste väljas på förhand).
+
+\subsection{Läsning av (Crocker 1972)}\label{lasning-av-crocker1972}
+
+Behandlar multiple correlation coefficient (dock \(r\) och inte
+\(R^2\)). Poängterar att (enl (Wishart, Kondo, and Elderton 1931))
+\[E[R^2|\rho = 0] = \frac{p}{n-1}\]
+
+Detta betyder att \(E[R^2]\) kan hamna nära 1 för stora \(p\) och små
+\(n\). Detta kanske kan vara viktigt då det samtidigt är pedagogiskt.
+
+Nänmer att ref {[}3{]} ger konfidensintevall för \(\rho\) för olika
+\(p, n\) och att detta även utvecklats i ref {[}6{]}.
+
+Noterar att \(R^2|\rho = 0 \sim F = \frac{R^2/p}{(1-R^2)/(n-p-1)}\).
+
+\subsection{Läsning av (R. A. Fisher 1928)}\label{lasning-av-fisher1928}
+
+Tycks vara ngt slags original för sample-fördelning av multilpe
+correlation coefficient.
+
+Ficher skriver att han blev tvungen att betrakta helt nya fördelningar.
+Dessa var dessutom olika för olika parametervärden men efter hand insågs
+att det fanns ett mönster som förenade dem.
+
+Påpekar att om
+\(Y = \beta_0 + \sum_{i = 1}^p \beta_i x_i + \varepsilon\) så kommer
+\(cor(Y, \hat{Y}) = \xi(\mathbf{x})\) för godtycklig linjärkombination
+\(\xi\). Därmed reduceras problemet att finna den multipla
+korrelationskoefficienten till att hitta korrelationskoefficienten
+mellan två variabler.
+
+Artikeln är extremt formelrik men en viktig slutsats är att den multipla
+korrelationen ej beror på hela korrelationsmatrisen mellan alla
+variabler utan bara på den multilpa korrelationen i populationen
+varifrån sampling sker.
+
+Dock är själva fördelningsformeln oerhört krånglig och utvecklas olika
+för olika parametervärden. Känns inte smo att detta kan ha ngn smo helst
+praktisk nytta i dess här föreslagna form. Nyttjar bla också
+Bessel-funktioner. Kollade också bland de artiklar som refererar till
+denna men hittade ingen som tycks ha utvecklat metoden (även om det
+fnins gott om referenser).
+
+\subsection{Läsning av (Wishart, Kondo, and Elderton
+1931)}\label{lasning-av-wishart1931}
+
+Handlar om multiple correlation coefficient med samples från N.
+Behandlar väntevärde och varians av sådana \(R^2\).
+
+\[\bar{R}^2 = 1 - \frac{b}{a + b}F(1, 1, a+b+1, \rho^2)\] och för
+\(\rho\) ges då \[\bar{R}^2 = \frac{a}{a + b}\] och för \(\rho = 1\)
+\[\bar{R}^2 = 1\]
+
+där \(a = p/2\) (dvs hälften av antalet kovariater) och
+\(b = (n - p - 1)/2\) (avrundat till heltal).
+
+Påtalas också att (R. a Fisher 1924) gav den ungefärliga
+approximationen:
+
+\[E[R^2] = \bar{R}^2 = a - \frac{b}{a + b}(1-\rho^2)\] och att detta är
+en ganska bra approximation åtm då n stort.
+
+Vi kan väl här konstatera att den bias som här presenteras tycks ara den
+bias för vilken (Ezekei 1929) justerar!? Dock hänvisade E själv till
+tidigare opublicerade källor så kan inte se exakt att det var just
+därför.
+
+F.ö. har vi väl sedan tidigare liknande resultat för det icke mulipla
+fallet och nu får vi ngt som liknar detta.
+
+\textbf{OBS!!!} Detta känns väl som ett ganska intressant och viktigt
+resultat att ta med sig!?
+
+Vi får också enl (19):
+
+\[\sigma^2_{R^2} = \frac{b(b+1)(1-\rho^2)^2}{(a+b)(a + b +1)}F(2,2,a+b+2,\rho^2) - \frac{b^2(1-\rho^2)^2}{(a+b)^2}F^2(1,1,a+b+1, \rho^2)\]
+
+I och med dessa uttryck skulle vi alltså kunna kolla att den bias vi får
+överrensstämmer med detta! :-)
+
+Nänmer också att det finns en approximation på detta uttryck sedan
+tidigare men visar att den inrte är tillräcklig utan att detta exakta
+uttryck krävs, åtminstone för små stickprov.
+
+Sedan beräknas även motsvarande för \(R\) och till artikeln finns ett
+editorial appendix med tabellverk över olika \(n\) och \(p\).
+
+Enligt appendix ges formlerna istället direkt map \(n, p\) enl (i) och
+(ii). Nänmer att olika förf använder olika beteckningar. T ex Fisher
+\(n_1, n_2\), Wishart \(a, b\) appendixet \(N, n\) och vi \(n, p\) och
+att dessa behöver transformeras en aning mellan de olika skrivsätten.
+
+På det hela taget en viktig artikel känns det som.
+
+\subsection{Läsning av (Kramer 1963)}\label{lasning-av-kramer1963}
+
+Låt \(X_{ij} (i = 1, 2, \ldots, k; j = 1, 2, \ldots, n)\) beteckna ett
+sample av \(n\) observationer dragna slumpmässigt från icke-singulär
+\(k\)-variat normalfördelning. Då är
+
+\[r_{hm} = \frac{n\sum_{j = 1}^n X_{hj}X_{mj}-(\sum_{j = 1}^nX_{hj}) \sum_{j = 1}^nX_{mj}}{
+\sqrt{
+   \big[
+       n 
+       \sum_{j = 1}^n
+       X_{hj}^2-
+       (\sum_{j = 1}^n)^2
+    \big]
+    \big[
+      n
+      \sum_{j = 1}^n X_{mj}^2 - 
+      (\sum_{j=1}^n X_{mj})^2
+    \big] 
+  }
+}\]
+
+den vanliga korrelationskoefficienten mellan kovariaterna \(X_h\) och
+\(X_m\). Låt sedan \(P\) vara determinanten av korrelationsmatrisen av
+de enkla korrelationerna och \(P'\) dess första kofaktor. Då ges den
+multipla korrelationskoefficienten mellan \(X_i\) och
+\((X_2, \ldots, X_k)\) som den ickenegativa kvadratroten:
+
+\[R = \sqrt{1 - \frac{P}{P'}}\]
+
+Därefetr ges delvis en formel för konfidensnitervall (uttrycks dock inte
+helt explicit) samt tabelluppgifter för denna beronde på
+stickprovsstorlek och antal kovariater.
+
+\subsection{Läsning av (Montgomery and Morrison
+1973)}\label{lasning-av-montgomery1973}
+
+Skriver explicit att storleken av bias för unadjusted \(R^2\) kan vara
+tillräckligt stor för att orsaka rejäla tolkningsproblem.
+
+Ger en approximation av \(E[R^2|n, k, \rho^2]\) och beräknar biasen för
+olika givna \(n, k, \rho\). Observera att detta gjordes då det kanske
+fortfranade var lite svårare att använda den exakta formeln, vilket ju
+enligt ovan egentligen är att föredra. Vi skulle ju kunna komplettera
+dessa beräkningar med värden från den exakta formeln.
+
+Biasen blir allra värst då \(\rho = 0\).
+
+Väldigt bra och pedagogisk artikel. Saknar dock illustrerande grafer,
+vilket vi skulle kunna tillföra.
+
+Nämner att för adjusted \(R^2\) gäller (approximativt):
+\[bias(\bar{R}^2) = - \frac{\rho^2(1-\rho^2)(1-2\rho^2)}{n}\] dvs bias
+\textgreater{} 0 om \(\rho \geq 1/2\) och \textless{} 0 om
+\(\rho \leq 1/2\). Denna bias är dock väldigt liten, den beror inte på
+\(p\) och blir som mest \(.1/n\). Största bias uppstår då
+\(\rho = .2, .8\). Bias = 0 då \(\rho = 0, 1/2, 1\).
+
+Poängterar att det inte räcker med stort n för att undvika bias utan att
+det krävs att förhållandet mellan p och n är bra.
+
+\subsection{Läsning av (Ozer 1985)}\label{lasning-av-ozer1985}
+
+Förklarar och kritiserar tolkning av \(r^2\) mha Venn-diagram (refererar
+till folk som gjort det tidigare). I denna tolkning (som också uttrycks
+algebraiskt) mäts korrelation som delmängder av element som förekommer i
+bvåde X och Y (dvs diskreta fall).
+
+Känns lite off-topic men kanske kan vara värt att nänma som en
+alternativ förklaringsmodell etc. Läser inte färdigt.
+
+\subsection{Fundernigar kring hur själva rtikeln kan
+skrivas}\label{fundernigar-kring-hur-sjalva-rtikeln-kan-skrivas}
+
+Det går att modifiera template för Word-dokument som genereras av Knitr:
+\url{https://vimeo.com/89562453}
+
+Det finns även en del färdiga \LaTeX-mallar i paketet \texttt{rticles}
+som kan väljas via
+\texttt{File\ \textgreater{}\ New\ file\ \textgreater{}\ R\ Markdown...}.
+Man kan även skapa egna templates enligt:
+\url{http://rmarkdown.rstudio.com/developer_document_templates.html}
+
+Har vi tur så kanske den tidsskrift vi vill submitta till erbjuder
+template i ngt lättanvänt format. Elsviewer-artiklar har t ex en mall i
+\texttt{rticles}-paketet.
+
+\section{2016-03-08}\label{section-1}
+
+\subsection{Läsning am betafördelning på
+Wikipedia}\label{lasning-am-betafordelning-pa-wikipedia}
+
+\url{https://en.wikipedia.org/wiki/Beta_distribution}
+
+OBS! Berör den vanliga, centrerade. Mode (antimode få
+\(\alpha, \beta < 1\)) kan beräknas men median saknar closed form. Finns
+olika förenklade formler för median givna i artikeln.
+
+Medelvärde ges av: \[\mu = E[X] = \frac{1}{1 + \frac{\beta}{\alpha}}\]
+
+Om \(\alpha = \beta \Rightarrow \mu = 1/2\).
+
+Det bör alltså ganska intressant att underseröka för vilka värden
+betafördelningen slår över från U-shaped till den ``vanliga formen''.
+Tror också att detta har nämnts ngnstans i litteraturen men kan tyvärr
+inte minnas var.
+
+Variansen ges av:
+\[var(X) = E[(X-\mu)^2] = \frac{\alpha \beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}\]
+
+Man kan också parametrisera fördelningen mha
+\(\mu, \nu = \alpha + \beta (\nu > 0)\):
+\[\alpha = \mu \nu, \beta = (1 - \mu)\nu\]
+
+Betafördelningen utvecklades av Pearson men kallades då
+Pearson-fördelning typ 1 och hade 4 parametrar. Dock går det att
+transformera denna fördelning till vanlig beta (på ngt sätt).
+
+Betafördelningen tycks ha nämnts första gången 1911.
+
+Parametrarna \(\alpha, \beta\) kan lättast skattas mha momentmetoden
+(det var f.ö. en skism mellan Pearson och Fisher just angående huruvida
+man skulle använda detta eler maximum likelihood, vilket dock tycks mer
+komplicerat).
+
+\[\hat{\alpha} = \bar{x}\big( \frac{\bar{x}(1-\bar{x})}{\bar{v}-1}\big), \beta = (1-\bar{x})\hat{\alpha}, \textrm{ if } \bar{v} < \bar{x}(1-\bar{x})\]
+
+\subsection{Googlande}\label{googlande}
+
+Finns en relevant fråga på SO som kan knytas till formel för
+ickecentralitetsparametern i ickecentrala betafördelningen:
+\url{http://stats.stackexchange.com/questions/58107/conditional-expectation-of-r-squared/58133\#58133}
+
+Bygger dock på ganska avancerad matematik som jag har lite svår att ta
+till mig. Refererar också till: (Walck 2007) vars avsn 30 behandlar
+ickecentral betafördelning men in te ger ngn bra formel för \(\lambda\).
+Hjälp för tolkning av SO-posten:
+\url{http://www.math.uah.edu/stat/expect/Matrices.html} Med hjälp av
+dessa formler borde vi kunna få en formel för fördelningen av \(R^2\).
+Dock görs inte detta i själva frågan utan här gör man istället en
+approximation för ett upper bound av \(E[R^2]\). Är osäkler på varför.
+Man får ju en analytisk formel för ickecentral beta och denna i sin tur
+har en closed form för dess mean!?
+
+Dock kan också noteras att \(\lambda\) beror på väntevärdet av X. Att vi
+ovan sett att betafördelningen ger en bra approximation till
+fördelningen kan nog rimligtivs bero på att vi har väntevärde = 0 för
+den data vi simulerat. Resultatet kan nog därmed förväntas bli
+annorlunda med andra väntevärden. Kanske ngt att udersöka iofs men
+kanske ett stickspår.
+
+\textbf{OBS!!!} Noterar nu att \(\lambda\) ju faktiskt beror på \(X\),
+dvs på stickprovet. Detta innebär ju att vi i praktiken är tillbaka i
+vår sedan tidigare kända situation. Dock har vi här ett beroende på hela
+\(X\), dvs en designmatris som vi kanske kan ta från vårt ursprungliga
+stora sample. Således har vi kanske trots allt inte ett beroende på den
+ensklda stickprovet!?
+
+Det som sägs är:
+
+\begin{quote}
+Consider the simple linear model:
+\end{quote}
+
+\[\pmb{y}=X'\pmb{\beta}+\epsilon\]
+
+\begin{quote}
+where \(\epsilon_i\sim\mathrm{i.i.d.}\;\mathcal{N}(0,\sigma^2)\) and
+\(X\in\mathbb{R}^{n\times p}\), \(p\geq2\) and \(X\) contains a column
+of constants.
+\end{quote}
+
+\begin{quote}
+\(R^2\sim\mathrm{B}(p-1,n-p,\lambda)\) where
+\(\mathrm{B}(p-1,n-p,\lambda)\) is a non-central Beta distribution with
+non-centrality parameter \(\lambda\) with
+\end{quote}
+
+\[\lambda=\frac{||X'\beta-\mathrm{E}(X)'\beta1_n||^2}{\sigma^2}\]
+
+Dock misstänker jag här att \(X'\) kan vara sammanblandat med \(X\) och
+att det således borde vara \(X \beta\) istf \(X' \beta\). Har vi inte
+\(\beta\) borde vi istället kunna skatta \(X\beta\) med hattmatrisen,
+dvs \(X(X'X)^{-1}X'Y\) \ldots{} eller är det lika bra att börja om från
+början med data som helt följer modellen?
+
+OBS! Denna (eller åtm liknande formel finns ockspå som (12) i (Helland
+1987). Är väl därmed bättre att utgå från den som faktiskt publicerad
+referens.
+
+OBS!!! \(X\) härrör fortfarande till just aktuellt sample ty \(\lambda\)
+växer med \(n\) :-(
+
+Dock kan vi anta att centralitetsparametern = 0 då \(E[X] = 0\) och då
+approximera med vanlig betafördelning. (Men gäller nog inte föfr lite
+mer komplicerade fördelningar, gissar att det inte räcker att bara
+standardisera resp parameter \ldots{} eller?)
+
+\subsection{Läsning av (Helland 1987)}\label{lasning-av-helland1987}
+
+Om tolkning av \(R^2\) i regression. Argumenterar för att \(R^2\) bara
+kan tolkas korrekt just då kovariaterna är random (då detta är bästa
+sättet att få en heltäckande bild av X). Skriver att det finns en del
+statistiker som avråder från att i huvud taget titta på \(R^2\).
+Föreslår approximativt konfidensintervall för populationskoefficienten
+för korrelation. Observerar att adjusted \(R^2\) faller inom intervallet
+men inte den vanliga. Utgår från modeller med intercept och
+ickekorrelerade fel. Bygger på matrisformler.
+
+Ger också \(\rho^2\) på formen:
+\[\rho^2 = \frac{\sum_{i = i}^p \beta_ix_i}{var(y)}\]
+
+Härleder också ickecentralitetsparametern
+\[\lambda = \frac{\beta'X'_0X_0\beta}{\sigma^2}\] Detta sägs ge en
+konditional distribution av \(R^2\) givet \(X_0\) för random \(X\). För
+en unconditional fördelning krävs dock fördelningsantagande för \(X\).
+Detta beräknades redan av(R. A. Fisher 1928) men är för krångligt för
+att kunna användas. En approximation har dock givits av en Gurland 1968
+(ej läst):
+\[k = \frac{\rho^2}{1-\rho^2}, a = \frac{(n-k)k(k+2) + p}{(n-1)k +p}, v = \frac{(n-1)k+p}{a}\Rightarrow \frac{R^2}{1-R^2} \approx \frac{(n-1)k +p}{n-p-1}F_{v, n-p-1}\]
+Denna approximation har sedan visat sig fungera bra. Utifrån denna
+approximation konstrueras sedan konfidensintervall. Den formel som då
+föreslås beror dock på \(\rho\). Numeriska metoder används och
+konvergens uppnås ofta efter 3-4 itterationer. Resultatet härav blir
+väldigt bra överrensstämmande med tidigare teoretiskt uträknade
+motsvarande värden. Artikelns beskrivning av metoden är antagligen
+tillräcklig för att själv kunna återimplementera den men det känns ändå
+lite krångligt.
+
+\subsection{Läsning av (Rodgers and Nicewander
+1988)}\label{lasning-av-rodgers1988}
+
+Innehåller en del historia. Artikeln skrevs för att fira att det var ca
+100 år sedan regression infördes. Återkommer till de kändisar vi sett
+sedan tidigare men i organiserad form. Redan 1920 skrev f.ö. Pearson
+``Note on the history of correlation''.
+
+Skriver också att konceptet både är ett av de mest använda men också
+mest missbrukade inom statistik.
+
+Artikeln presenterar sedan 13 olika tolkningar av \(r\) men bara under
+vissa förenklade förutsättningar, såsom endast bivariat fördelning:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  den anliga algebraiska formeln
+\item
+  som standardiserad kovarians
+\item
+  som lutningen (slope) i regressionsmodell
+\item
+  geomertiskt medelvärde
+\item
+  roten av proportion of variability accounted for
+\item
+  mean cross product of standardized variables
+\item
+  vinkeln mellan två standardiseerade regressionslinjer
+\item
+  funktion av vinkeln mellan de två variabelvektorerna
+\item
+  \ldots{}
+\end{enumerate}
+
+En del av de övriga känns lite väl teoretiska \ldots{}
+
+\section*{Referenser}\label{referenser}
+\addcontentsline{toc}{section}{Referenser}
+
+\hypertarget{refs}{}
+\hypertarget{ref-Cattin1980}{}
+Cattin, Philippe. 1980. ``Estimation of the Predictive Power of a
+Regression Model.'' \emph{Journal of Applied Psychology} 65 (4):
+407--14.
+doi:\href{https://doi.org/10.1037//0021-9010.65.4.407}{10.1037//0021-9010.65.4.407}.
+
+\hypertarget{ref-Crocker1972}{}
+Crocker, Douglas C. 1972. ``Some Interpretations of the Multiple
+Correlation Coefficient.'' \emph{The American Statistician} 26 (2).
+Taylor \& Francis: 31--33.
+doi:\href{https://doi.org/10.1080/00031305.1972.10477345}{10.1080/00031305.1972.10477345}.
+
+\hypertarget{ref-Ezekei1929}{}
+Ezekei, Mordecai. 1929. ``The Application of the Theory of Error to
+Multiple and Curvilinear Correlation.'' \emph{Journal of the American
+Statistical Association} 24 (165): 99--104.
+
+\hypertarget{ref-Fisher1928}{}
+Fisher, R A. 1928. ``The General Sampling Distribution of the Multiple
+Correlation Coefficient.'' \emph{Proceedings of the Royal Society of
+London A: Mathematical, Physical and Engineering Sciences} 121 (788):
+654--73.
+\url{http://rspa.royalsocietypublishing.org/content/121/788/654.abstract}.
+
+\hypertarget{ref-Fisher1924}{}
+Fisher, R a. 1924. ``The distribution of the partial correlation
+coefficient.''
+
+\hypertarget{ref-Helland1987}{}
+Helland, Inge S. 1987. ``On the Interpretation and Use of R2 in
+Regression Analysis.'' \emph{Biometrics} 43 (1). {[}Wiley, International
+Biometric Society{]}: 61--69.
+doi:\href{https://doi.org/10.2307/2531949}{10.2307/2531949}.
+
+\hypertarget{ref-Kramer1963}{}
+Kramer, K H. 1963. ``Tables for Constructing Confidence Limits on the
+Multiple Correlation Coefficient.'' \emph{Journal of the American
+Statistical Association} 58 (304). {[}American Statistical Association,
+Taylor \& Francis, Ltd.{]}: 1082--5.
+doi:\href{https://doi.org/10.2307/2283334}{10.2307/2283334}.
+
+\hypertarget{ref-Montgomery1973}{}
+Montgomery, David B, and Donald G Morrison. 1973. ``A Note on Adjusting
+R2.'' \emph{The Journal of Finance} 28 (4): 1009--13.
+
+\hypertarget{ref-Olkin1958}{}
+Olkin, Ingram, and J.W. Pratt. 1958. ``Unbiased estimation of certain
+correlation coefficients.'' \emph{The Annals of Mathematical Statistics}
+29 (1): 201--11.
+doi:\href{https://doi.org/10.2307/2237306}{10.2307/2237306}.
+
+\hypertarget{ref-Ozer1985}{}
+Ozer, Daniel J. 1985. ``Correlation and the coefficient of
+determination.'' \emph{Psychological Bulletin} 97 (2): 307--15.
+doi:\href{https://doi.org/10.1037/0033-2909.97.2.307}{10.1037/0033-2909.97.2.307}.
+
+\hypertarget{ref-Rodgers1988}{}
+Rodgers, Joseph Lee, and W. Alan Nicewander. 1988. ``Thirteen Ways to
+Look at the Correlation Coefficient.'' \emph{The American Statistician}
+42 (1): 59--66.
+doi:\href{https://doi.org/10.2307/2685263}{10.2307/2685263}.
+
+\hypertarget{ref-Walck2007}{}
+Walck, Christian. 2007. ``Hand-book on STATISTICAL DISTRIBUTIONS for
+experimentalists.''
+\href{http://www.stat.rice.edu/\%7B~\%7Ddobelman/textfiles/DistributionsHandbook.pdf}{http://www.stat.rice.edu/\{\textasciitilde{}\}dobelman/textfiles/DistributionsHandbook.pdf}.
+
+\hypertarget{ref-Wherry1931}{}
+Wherry, R. 1931. ``A new formula for predicting the shrinkage of the
+coefficient of multiple correlation.'' \emph{The Annals of Mathematical
+Statistics} 2 (4): 440--57.
+\url{http://www.jstor.org/stable/2957681$/backslash$npapers2://publication/uuid/F3D4916B-BB98-4094-A459-DF4387AC9610}.
+
+\hypertarget{ref-Wishart1931}{}
+Wishart, Author J, T Kondo, and E M Elderton. 1931. ``The Mean and
+Second Moment Coefficient of the Multiple Correlation Coefficient, in
+Samples from a Normal Population.'' \emph{Biometrika} 22 (3/4): 353--76.
+
+\end{document}
