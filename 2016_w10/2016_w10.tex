@@ -9,11 +9,10 @@
 \else % if luatex or xelatex
   \ifxetex
     \usepackage{mathspec}
-    \usepackage{xltxtra,xunicode}
   \else
     \usepackage{fontspec}
   \fi
-  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
   \newcommand{\euro}{€}
 \fi
 % use upquote if available, for straight quotes in verbatim environments
@@ -24,22 +23,13 @@
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage[margin=1in]{geometry}
-\ifxetex
-  \usepackage[setpagesize=false, % page size defined by xetex
-              unicode=false, % unicode breaks when used with xetex
-              xetex]{hyperref}
-\else
-  \usepackage[unicode=true]{hyperref}
-\fi
-\hypersetup{breaklinks=true,
-            bookmarks=true,
-            pdfauthor={Erik Bulow},
+\usepackage{hyperref}
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+\hypersetup{unicode=true,
             pdftitle={Arbetslogg 2016 vecka 10},
-            colorlinks=true,
-            citecolor=blue,
-            urlcolor=blue,
-            linkcolor=magenta,
-            pdfborder={0 0 0}}
+            pdfauthor={Erik Bulow},
+            pdfborder={0 0 0},
+            breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -123,6 +113,7 @@
   \date{07 mars 2016}
 
 
+
 % Redefines (sub)paragraphs to behave more like sections
 \ifx\paragraph\undefined\else
 \let\oldparagraph\paragraph
@@ -137,7 +128,6 @@
 \maketitle
 
 {
-\hypersetup{linkcolor=black}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
@@ -151,7 +141,11 @@
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 50000
+## Warning: 'memory.limit()' is Windows-specific
+\end{verbatim}
+
+\begin{verbatim}
+## [1] Inf
 \end{verbatim}
 
 \begin{Shaded}
@@ -559,6 +553,166 @@ vissa förenklade förutsättningar, såsom endast bivariat fördelning:
 
 En del av de övriga känns lite väl teoretiska \ldots{}
 
+\section{2016-03-09}\label{section-2}
+
+Jobbar hemifrån med att läsa lite artiklar.
+
+\subsection{Läsning av (Wasserstein and Lazar
+2016)}\label{lasning-av-wasserstein2016}
+
+Artikeln handlar om att ASA till viss del sätter ner foten och tar
+avstånd för överdrivet bruk av p-värden. Kan var värt att bara nämna att
+det inte är helt självklart att syftet med att undersöka fördelningen
+för R2 är att kunna skapa hypoteser etc.
+
+\subsection{Läsning av (Nambury S Raju et al.
+1997)}\label{lasning-av-raju1997}
+
+Om multiple regression. Om CV och OLS. Vill jämföra korrigeringar av
+\(\rho\) baserat på:
+
+\begin{itemize}
+\tightlist
+\item
+  CV
+\item
+  Formula-based (dvs adjusted).
+\end{itemize}
+
+Påtalar att även om en skattning \(r\) för \(\rho\) är unbiased
+(antingen via CV eller formell), betyder det inte per automatik att
+också skattningen \(r^2\) av \(\rho^2\) är unbiased.
+
+Antar X fixed men \(\varepsilon \sim N\).
+
+Påtalar att om syftet är prediction bör \(\rho_c\) skattas mha CV. I så
+fall gäller dock att \(\rho_c^2 < \rho^2\). Skillnaden beror på skillnad
+mellan CV-sample och population. Här är \(\rho_c^2\) också ett
+teoretiskt värde och även här nämns att \(R^2\) överskattar detta.
+Nämner att (Wherry 1931) först nämna att shrinkage innebär att också
+\(R_c^2<R^2\).
+
+Nämner att Huberty 1994, Snijders 1996 och Yung 1996 undersökt metoder
+för signifikanstest av \(R^2\) och att detta vid denna tidpunkt var ngt
+ganska nytt. Kanske värt att kolla upp?
+
+Har i andra artiklar argumenterats för att adjustmentmetoder för fixed X
+är tillämpliga också för random X om \(n > 50\).
+
+Här står att adjusted enl (Ezekei 1929) utvecklades av (Wherry 1931) och
+att dessa formler således skiljer sig lite. Ger en historik och
+sammanfattning av de olika adjusted-skattningarna som presenterats och
+undersökyts.
+
+refererar til studie som visat att CV sämre än formula based.
+Jämförelser med 4 och 8 kovariater och stickprovsstorlekar
+\textgreater{}= 50. Men även då vissa svårigheter (rekommenderar
+\textgreater{}= 250). Detta underbyggs också med referenser till fler
+liknande studier. Dock poängteras att CV kan vara bättre just för
+predektion.
+
+De simuleringar so mgjort dittills tycks i de flesta fall begränsas till
+populationsstorlekar om 5000.
+
+En del simuleringar har också gjorts på väldigt små stickprov och med
+varierande \(\rho\).
+
+Konstateras att bootstrap och jack-knife kan rekommenderas först för n
+\textgreater{}= 100.
+
+Skriver också mkt om EW jmfrt med OLS, vilket jag inte läser då det
+ligger utanför nuvarande intresse.
+
+Slutsats att formula based rekommenderas. Kan dock inte rekommendera ngn
+enskild då det trots alla jämförelser inte funnits ngn jämförelse som
+täckt samtliga.
+
+\textbf{Slutsats:} Denna artikel är väldigt omfattande gällande referat
+av tidigare studier för jämförelser av olika adjustments!
+
+\subsection{Läsning av (Nakagawa and Niki
+1992)}\label{lasning-av-nakagawa1992}
+
+Behandlar endast \(r\) men gör det för icke-normalfördelad population.
+Nämner att det utvecklats metoder/algoritmer för beräkning av flertalet
+moment för fördelning av r men att högre moment kräver väldigt mkt
+algebra. Utgår från cumulants
+(\url{https://en.wikipedia.org/wiki/Cumulant}) (dvs \(\ln(M)\)) där M =
+moment istf moments men gör koplpingar tillbaka till moments. Denna
+artikel utvecklar nu approximationer till de fyra första momenten mha
+Edgeworth-expansions
+(\url{https://en.wikipedia.org/wiki/Edgeworth_series}), vilket är en
+metod att approximera sannolikhetsfördelningar mha just cumulants.
+Använder också delta-metoden
+
+\subsection{Fixar Mendeley}\label{fixar-mendeley}
+
+Känner att det uppståt ett visst behov av att försöka få lite mer
+ordning i Mendeley så lägger rätt mkt tid på detta. Lyckas bl a fixa ett
+automatsynkat bibtex-bibliotek som jag hoppas kunna knyta direkt till
+loggen etc. Har också slagit samman dubletter, rensat bort ickerelevanta
+artiklar och gått igenom så att all information stämmer. Ett ganska
+stort jobb faktiskt men hoppas att det kan vara värt det.
+
+\subsection{Läsning av (N S Raju et al.
+1999)}\label{lasning-av-raju1999}
+
+Kan ses som en uppföljning till (Nambury S Raju et al. 1997) men med
+egen simuleringsstudie. KOmmer fram till att adjusted (Ezekei 1929) är
+bästa sättet att justera.
+
+Utgår från verkligt dataset med nästan 85000 fall. Fördel framför
+datorsimulerat data att det kan avspegla verkigheten bättre i form av
+att inte helt följa teoretiska modeller etc.
+
+Sample sizes 25, 40, 60, 80, 100, 150, and 200 för 501 samples.
+
+Motiverar små stickprovsstorlekar:
+
+\begin{quote}
+Based on 125 reported validity studies, Callender, Osburn, Greener, \&
+Ashworth (1982) found that 33\% of the studies reported mean Ns below 50
+and that 51\% of the studies reported mean Ns between 50 and 100.
+\end{quote}
+
+Jämförde 16 different formulas (seven formulas originally developed
+\(\rho^2\) for estimating population multiple correlation and nine
+formulas initially developed for estimating population cross-validity).
+Jämförde:
+
+\begin{quote}
+mean of bias (MB) and mean of squared bias (MSB). Note that MSB reflects
+both MB and the SD of bias. The means and SDs of bias and squared bias
+were obtained separately for each combination of estimation procedure,
+N, and population parameter that was estimated.
+\end{quote}
+
+Table 2 faktiskt väldigt intressant. Visar tydligt jämförelser mellan
+olika värden och där tydligt att (Ezekei 1929) väldigt bra. Table 3
+visar ännu tydligare mean bias och att (Ezekei 1929) är bäst samt att
+formula bättre än CV. Motsvarande resultat ges för mean squared bias.
+Detta visas även grafiskt.
+
+Jag läser inte de delar av artikeln som berör skattningar mha CV eller
+EW utan hoppar direkt till diskussion.
+
+Refererar till att även tidigare jämförelser visat att (Ezekei 1929)
+bäst och detta både för vanlig regression och stepwise.
+
+Studien erkänner dock att en brist är att man inte använt olika \(\rho\)
+eller olika \(p\) då detta ju varit fixt för ett faktiskt dataset.
+Likaså då data kommer från ickenormal-fördelning etc. Begränsar sig
+också till least square (ej ridge regression, PCA etc) men det gäller ju
+för oss också.
+
+Här kan vi ju också påminna oss själva om att (Skidmore and Thompson
+2011) just undersökte fler \(\rho\) och olika sorters fördelningar. De
+fann att (Olkin and Pratt 1958) var bäst men att (Ezekei 1929) var
+ungefär lika bra. Slutsatsen blir väl då trots allt att rekommendera
+(Ezekei 1929), dels då den är enklare, dels då den beskrivs både på
+Wikipedia och är implementerad i R etc, dvs den har störst spridning och
+verkar vara accepterad.
+
 \section*{Referenser}\label{referenser}
 \addcontentsline{toc}{section}{Referenser}
 
@@ -588,8 +742,8 @@ London A: Mathematical, Physical and Engineering Sciences} 121 (788):
 \url{http://rspa.royalsocietypublishing.org/content/121/788/654.abstract}.
 
 \hypertarget{ref-Fisher1924}{}
-Fisher, R a. 1924. ``The distribution of the partial correlation
-coefficient.''
+Fisher, R a. 1924. ``The Distribution of the Partial Correlation
+Coefficient.'' \emph{Metron} 3 (3-4): 329--32.
 
 \hypertarget{ref-Helland1987}{}
 Helland, Inge S. 1987. ``On the Interpretation and Use of R2 in
@@ -608,16 +762,35 @@ doi:\href{https://doi.org/10.2307/2283334}{10.2307/2283334}.
 Montgomery, David B, and Donald G Morrison. 1973. ``A Note on Adjusting
 R2.'' \emph{The Journal of Finance} 28 (4): 1009--13.
 
+\hypertarget{ref-Nakagawa1992}{}
+Nakagawa, Shigekazu, and Naoto Niki. 1992. ``Distribution of the Sample
+Correlation Coefficient for Nonnormal Populations.'' \emph{Journal of
+the Japanese Society of Computational Statistics} 5 (1): 1--19.
+doi:\href{https://doi.org/10.5183/jjscs1988.5.1}{10.5183/jjscs1988.5.1}.
+
 \hypertarget{ref-Olkin1958}{}
-Olkin, Ingram, and J.W. Pratt. 1958. ``Unbiased estimation of certain
-correlation coefficients.'' \emph{The Annals of Mathematical Statistics}
+Olkin, Ingram, and J.W. Pratt. 1958. ``Unbiased Estimation of Certain
+Correlation Coefficients.'' \emph{The Annals of Mathematical Statistics}
 29 (1): 201--11.
 doi:\href{https://doi.org/10.2307/2237306}{10.2307/2237306}.
 
 \hypertarget{ref-Ozer1985}{}
-Ozer, Daniel J. 1985. ``Correlation and the coefficient of
-determination.'' \emph{Psychological Bulletin} 97 (2): 307--15.
+Ozer, Daniel J. 1985. ``Correlation and the Coefficient of
+Determination.'' \emph{Psychological Bulletin} 97 (2): 307--15.
 doi:\href{https://doi.org/10.1037/0033-2909.97.2.307}{10.1037/0033-2909.97.2.307}.
+
+\hypertarget{ref-Raju1999}{}
+Raju, N S, R Bilgic, J E Edwards, and P F Fleer. 1999. ``Accuracy of
+Population Validity and Cross-Validity Estimation: An Empirical
+Comparison of Formula-Based, Traditional Empirical, and Equal Weights
+Procedures.'' \emph{Applied Psychological Measurement} 23 (2): 99--115.
+doi:\href{https://doi.org/10.1177/01466219922031220}{10.1177/01466219922031220}.
+
+\hypertarget{ref-Raju1997}{}
+Raju, Nambury S, Reyhan Bilgic, Jack E Edwards, and Paul F Fleer. 1997.
+``Methodology Review: Estimation of Population Validity and
+Cross-Validity, and the Use of Equal Weights in Prediction.''
+\emph{Applied Psychological Measurement} 21 (4): 291--305.
 
 \hypertarget{ref-Rodgers1988}{}
 Rodgers, Joseph Lee, and W. Alan Nicewander. 1988. ``Thirteen Ways to
@@ -625,14 +798,26 @@ Look at the Correlation Coefficient.'' \emph{The American Statistician}
 42 (1): 59--66.
 doi:\href{https://doi.org/10.2307/2685263}{10.2307/2685263}.
 
+\hypertarget{ref-Skidmore2011}{}
+Skidmore, Susan Troncoso, and Bruce Thompson. 2011. ``Choosing the Best
+Correction Formula for the Pearson R 2 Effect Size.'' \emph{The Journal
+of Experimental Education} 79 (3): 257--78.
+doi:\href{https://doi.org/10.1080/00220973.2010.484437}{10.1080/00220973.2010.484437}.
+
 \hypertarget{ref-Walck2007}{}
-Walck, Christian. 2007. ``Hand-book on STATISTICAL DISTRIBUTIONS for
-experimentalists.''
+Walck, Christian. 2007. ``Hand-Book on STATISTICAL DISTRIBUTIONS for
+Experimentalists.''
 \href{http://www.stat.rice.edu/\%7B~\%7Ddobelman/textfiles/DistributionsHandbook.pdf}{http://www.stat.rice.edu/\{\textasciitilde{}\}dobelman/textfiles/DistributionsHandbook.pdf}.
 
+\hypertarget{ref-Wasserstein2016}{}
+Wasserstein, Ronald L., and Nicole A. Lazar. 2016. ``The ASA's Statement
+on P-Values: Context, Process, and Purpose.'' \emph{The American
+Statistician}, March. Taylor \& Francis, 00--00.
+doi:\href{https://doi.org/10.1080/00031305.2016.1154108}{10.1080/00031305.2016.1154108}.
+
 \hypertarget{ref-Wherry1931}{}
-Wherry, R. 1931. ``A new formula for predicting the shrinkage of the
-coefficient of multiple correlation.'' \emph{The Annals of Mathematical
+Wherry, R. 1931. ``A New Formula for Predicting the Shrinkage of the
+Coefficient of Multiple Correlation.'' \emph{The Annals of Mathematical
 Statistics} 2 (4): 440--57.
 \url{http://www.jstor.org/stable/2957681$/backslash$npapers2://publication/uuid/F3D4916B-BB98-4094-A459-DF4387AC9610}.
 
