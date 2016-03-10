@@ -9,10 +9,11 @@
 \else % if luatex or xelatex
   \ifxetex
     \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
   \else
     \usepackage{fontspec}
   \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
   \newcommand{\euro}{€}
 \fi
 % use upquote if available, for straight quotes in verbatim environments
@@ -23,13 +24,22 @@
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
-\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
-\hypersetup{unicode=true,
-            pdftitle={Arbetslogg 2016 vecka 10},
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
             pdfauthor={Erik Bulow},
-            pdfborder={0 0 0},
-            breaklinks=true}
+            pdftitle={Arbetslogg 2016 vecka 10},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
 \urlstyle{same}  % don't use monospace font for urls
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -113,7 +123,6 @@
   \date{07 mars 2016}
 
 
-
 % Redefines (sub)paragraphs to behave more like sections
 \ifx\paragraph\undefined\else
 \let\oldparagraph\paragraph
@@ -128,6 +137,7 @@
 \maketitle
 
 {
+\hypersetup{linkcolor=black}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
@@ -141,11 +151,7 @@
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: 'memory.limit()' is Windows-specific
-\end{verbatim}
-
-\begin{verbatim}
-## [1] Inf
+## [1] 50000
 \end{verbatim}
 
 \begin{Shaded}
@@ -713,10 +719,320 @@ ungefär lika bra. Slutsatsen blir väl då trots allt att rekommendera
 Wikipedia och är implementerad i R etc, dvs den har störst spridning och
 verkar vara accepterad.
 
+\subsection{Läsning av (James Algina 1999)}\label{lasning-av-algina1999}
+
+Jmfr 4 metoder för att bilda KI för squared multiple correlation
+coefficient \(\rho^2\). Dels direkt från \(R^2\), dels tre st
+approximativa metoder föreslagna av Olkin och Finn 1995.
+Approximationerna visade sig dock dåliga. Bäst använda
+\(R^2\)-versionen.
+
+Skriver att flertal författare argumenterat för att överge
+hypotesprövning och ist betrakta effect size. Kan ju kopplas till
+(Wasserstein and Lazar 2016). Detta ksulle leda till rapportering av KI
+för \(\rho^2\).
+
+KI utgår direkt från \(R^2\):s fördelning enl (R. A. Fisher 1928). Gick
+då att finna vissa av dessa värden från tabell men behövde annars
+använda numeriska metoder för approximation mha (Steiger and Fouladi
+1992). Därav utvecklades de approximativa metoderna för att kunan gå
+lättare att beräkna vid behov.
+
+Har rapporterats att de två första är av ``no use when \(\rho^2 = 0\)''.
+
+KI skapat mha (R. A. Fisher 1928) kommer att ta korrekt hänsyn till
+bias, dvs intervallet kommer att ligga under punktskattningen ifall
+detta krävs baserat på n och p.
+
+OBS! Fichers metod funkar inte just då \(\rho = 0\). men ger annars
+exakt resultat (men ävn i det fallet kan den användas med bra resultat).
+
+OBS! Studien baserad på normalfördelad data. Föreslår att framtida
+studier fokuserar på ej normalfördelad data.
+
+\subsection{Läsning av (Steiger and Fouladi
+1992)}\label{lasning-av-steiger1992}
+
+Beskriver det C-program ``R2'' (Windows, GUI/menydrivet) som användes av
+(James Algina 1999). Byggde på teori från Cox och Hinkley 1974 s. 213.
+Gick att beställa programmet på diskett för 30 dollar.
+
+Hittade sedan referens (Zou 2007) till
+\url{http://www.statpower.net/Software.html} där programet fortfarande
+finns (nu gratis). Fnins även instruktioner för att köra mha Dosbox i
+Windows 7.
+
+\subsection{Läsning av (Kreke, Khemlani, and Trafton
+2015)}\label{lasning-av-kreke2015}
+
+Modernt R-paket.
+
+Beskriver den extrema situationen för väldigt låga n att varje tänkbart
+värde på \(R^2\) då \(\rho^2 = 0.5\) är mer sannolikt än det faktiska,
+detta eftersom fördelningen har en antonode i ung mitten enl tidigare
+illustrationer.
+
+Tycks som att arbetete med detta paket föregår publicering av artikel i
+ämnet: Khemlani, Sangeet; Kreke, Joseph; Trafton, Greg. ``Using
+Percentile Analysis to Baseline Noise in R-squared''. Harris, Inc; Naval
+Research Laboratory. (in draft)
+
+Utgår bara från korrelation mellan två variabler \(X, Y\) men dessa kan
+ha lite olika fördelningar (normal, uniform, lognormal, opisson eller
+binomial). Har studerat delar av koden (finns tyvärr inte på GitHub
+annat än via CRAN-kopian.) Utifrån dessa genereras data för en empirisk
+fördelning av \(R^2\). Inga teoretiska fördelningsantaganden görs och
+ännu saknas referenser till ngn teori som stödjer metoden. Kan vara
+värdefullt för illustrationer (har många plot-funktioner, ggplot2).
+
+Finns ett justerat \(R^2\)-värde som ges av \texttt{R2k}. som är helt
+empiriskt. Tror syftet med den kommande artikeln kanske är att jämföra
+denna metod mot tidigare formell-metoder etc. Känns lite spännande nu
+när beräkningskraften kanske är tillräcklig för att göra så. Dock bygger
+det på antagande om underliggande fördelning och dess parametrar etc så
+ser väl egentligen inte att detta skulle vara bättre än CV eller
+liknande (som ju då dessutom bygger på faktiska data). Men som sagt
+\ldots{} för illlustrativa syften kan det nog vara bra.
+
+\subsection{Kollar andra R-paket}\label{kollar-andra-r-paket}
+
+Har sökt på \url{http://www.r-pkg.org/} efter:
+
+\begin{itemize}
+\tightlist
+\item
+  multilpe correlation coefficient (0 träffar)
+\item
+  R2 (7, varav ett var (Kreke, Khemlani, and Trafton 2015))
+\item
+  correlation (253 träffar)
+\item
+  coefficient of determination (7 sträffar)
+\end{itemize}
+
+Har också kollat listan över CRAN task views utan att hitta ngt smo
+känns direkt relevant.
+
+\subsection{\texorpdfstring{Paketet
+\texttt{suppDist}}{Paketet suppDist}}\label{paketet-suppdist}
+
+Se \texttt{?Pearson} Har d, p, q, r och s-funktioner för fördelningen av
+Pearsons korrelationskoefficient. Observera att detta ju alltså inte är
+samma som fördelningen för \(R^2\) dock. Implementerat i C så kan inte
+helt tolka innebörden. Källkoden finns dock här:
+\url{https://github.com/cran/SuppDists/blob/master/src/dists.cc} Där
+framgår också en källa som en kommentar i själva koden:
+
+\begin{quote}
+Density function of the correlation coefficient From eq 6.5, p223 of
+Johnson and Kotz, Continuous Univariate Distributions, vol 2, 1st
+edition. Uses Gaussian hypergeometric function, defined on page 17
+(1.104) of Johnson, Kotz, and Kemp, Univariate Discrete Distributions,
+2nd Ed. The derivitive is given on page 18.
+\end{quote}
+
+Dessa referens finns på MC-bibl hylla 16b:
+\url{http://chans.lib.chalmers.se/record=b1174991}
+\url{http://chans.lib.chalmers.se/search/?searchtype=X\&SORT=D\&searcharg=Johnson\%2C+Kotz\%2C+and+Kemp\%2C+Univariate+Discrete+Distributions\&searchscope=1\&submit=Submit}
+
+som har öppettider:
+
+\begin{itemize}
+\tightlist
+\item
+  Tisdagar 10 - 12
+\item
+  Onsdagar 15 - 17
+\item
+  Torsdagar 13 - 15
+\end{itemize}
+
+\url{http://www.chalmers.se/sv/institutioner/math/bibliotek/om-biblioteket/Sidor/Oppettider.aspx}
+
+Syns också lite längre ner att han använder hypergeometrisk funktion och
+att han tycks integrera en funktion etc. Känns solitt.
+
+Ingen refernes angiven i paketet. Paketet blev tyvärr ``orphened'' efter
+att dess skapare Robert Wheeler omkommit efter kollision med bil då han
+själv cyklade:
+\url{https://cran.r-project.org/web/packages/AlgDesign/NEWS}
+
+Drar lite slumptal för illustration:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(SuppDists)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(}\KeywordTok{rPearson}\NormalTok{(}\FloatTok{1e6}\NormalTok{, }\DecValTok{10}    \NormalTok{) ^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(}\KeywordTok{rPearson}\NormalTok{(}\FloatTok{1e6}\NormalTok{, }\DecValTok{30}    \NormalTok{) ^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(}\KeywordTok{rPearson}\NormalTok{(}\FloatTok{1e6}\NormalTok{, }\DecValTok{10}\NormalTok{, .}\DecValTok{5}\NormalTok{) ^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(}\KeywordTok{rPearson}\NormalTok{(}\FloatTok{1e6}\NormalTok{, }\DecValTok{30}\NormalTok{, .}\DecValTok{5}\NormalTok{) ^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{2016_w10_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\subsection{\texorpdfstring{Paketet
+\texttt{cvq2}}{Paketet cvq2}}\label{paketet-cvq2}
+
+Se: \url{http://www.r-pkg.org/pkg/cvq2}
+
+Tror dock inte att detta äre relevant i sammanhanget. Behandlar PRESS
+etc.
+
+\subsection{Läsning av (Zou 2007)}\label{lasning-av-zou2007}
+
+Erbjöd även SAS-kod i supplemental materials:
+\url{http://dx.doi.org/10.1037/1082-989x.12.4.399.supp}
+
+Nämner här att det fnins åtm 14 olika sätt att betrakta \(\rho^2\) (jmfr
+(Rodgers and Nicewander 1988) som också refereras ihop med ytterligare
+sätt).
+
+Om man vill skapa KI för enskild \(\rho2\) funkar det ganska bra med
+Fishers z (transformerar fram och tillbaka). Detta funkar dock inte vid
+jämförelser mellan två olika \(\rho2\) då bakåttransformation saknas.
+
+För \(\rho^2\) är det ännu mer komplicerat då fördelningen är så knepig.
+Skriver att sådana tabulerade värden har publicerats men att de sällan
+använts. Approximationer finns också som sägs funka ganska bra men som
+trots allt inte kan användas för jämförelser. Approximationer som
+ignorerar fördelningens skevhet har också presenterats med sedan
+förkastats (James Algina 1999).
+
+Poängterar att man inte får blanda ihop fördelning för \(r\) och
+\(\sqrt{R^2}\) då den senare ju bara kan anta positiva värtden.
+
+Finns SAS-metod: ``SAS PROC CANCORR'' och i appendix beskrivs även
+implementat5ion för SPSS. Dessa bygger på approximation mha
+F-fördelning.
+
+\begin{itemize}
+\tightlist
+\item
+  För \(\rho\):
+\item
+  Överlapping: Metoder som bygger på normalantagande funkar inte för
+  stickprov mindre än 100. För storlek 100 - 200 täcker man \(\rho^2\)
+  i\\
+  \(1-\alpha\) procent av fallen men assymetrin ger skevt resultat upp
+  till stickprovsstorlekar på ca 200. Med F-fördelning funkar det dock
+  bra för storlekar ner till ca 15.
+\item
+  Ej överlappande:
+\item
+  För \(\rho^2\):
+\item
+  Funkar inte alls med normalfördelningsantagande
+\item
+  Funkar hyffsat med F-fördelning men testas bara för
+  stickprovsstorlekar \textgreater{}= 50. Dock med \(p = 3, 6\) (men
+  resultaten likvärdiga så redovisar endast för \(p = 6\) i tab 3).
+\end{itemize}
+
+Gör flera referenser till Lee 1971 för approximativ fördelning till
+\(R^2\) så gissar att det kan vara värt att kolla upp. Slutsats för
+\(R^2\) är att resultatet trots allt blir ungefär samma som enl (J.
+Algina and Moulder 2001) (som tillämpade en mer approximativ metod).
+
+\textbf{OBS!} Finns ett bra appendix som också förklarar den
+approximativa icke-centrala F-fördelningen enl Lee 1971. Observera att
+den fördelningen gäller rtansformationen ovan, där (Helland 1987) anger
+Gurland 1968 som källa men med skillnaden att vi här har en
+icke-centralfördelning (gissar att denna på ngt sätt är bättre då den
+dessutmo är senare).
+
+\subsection{\texorpdfstring{Paketet
+\texttt{cocor}}{Paketet cocor}}\label{paketet-cocor}
+
+Se: \url{http://www.r-pkg.org/pkg/cocor}
+
+Paketet har också GUI dels online, dels för desktop.
+
+\subsubsection{Läsning av (Diedenhofen and Musch
+2015).}\label{lasning-av-diedenhofen2015.}
+
+KI skapas baserat på (Zou 2007) men behandlar tyvärr bara korrelation
+och inte \(\rho^2\). Går därför inte vidare med detta men kanske ändå
+värt att nämna att det finns ett lättanvänt verktyg för vanlig
+korrelation (gher dessutom väldigt många olika testresultat \ldots{}
+kanske för många med tanke på att alla kanske inte är optimala
+\ldots{}).
+
+\subsection{Läsning av (Lee 1971)}\label{lasning-av-lee1971}
+
+Undersöker sample distribution multiple correlation coefficient. Från
+normal sample. När antalet oberoende variater udda är denna fördelning
+förbunden med fördelningen för simlpe correlation. Utnyttjar att
+underliggande fördelning är ickecentral beta men approximerar med
+central och ickecentral F samt normalfördelning.
+
+Poängterar att (Hotelling 1953) föreslog beräkning av
+fördelningsfunktion mha rekursion (``recurrence formula'') men tyvärr
+bara för udda p.
+
+Ger (23) som en approximativ fördelningsfunktion mha ickecentral beta.
+Lång formel så skriver inte ner den just nu men implementerar som
+R-funktion för skoj skull:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pr2 <-}\StringTok{ }\NormalTok{function(q, n, p, rho) \{}
+  \NormalTok{rh <-}\StringTok{ }\NormalTok{rho ^}\StringTok{ }\DecValTok{2} \NormalTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{rho ^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+  \NormalTok{a <-}\StringTok{ }\NormalTok{n *}\StringTok{ }\NormalTok{rh}
+  
+  \NormalTok{B <-}\StringTok{ }\NormalTok{function(shape1, shape2) stats::}\KeywordTok{pbeta}\NormalTok{(q, shape1, shape2,  }\DataTypeTok{ncp =} \NormalTok{a)}
+  
+  \KeywordTok{B}\NormalTok{(p, n -}\StringTok{ }\NormalTok{p) +}\StringTok{ }
+\StringTok{  }\NormalTok{(a ^}\StringTok{ }\DecValTok{2} \NormalTok{/}\StringTok{ }\NormalTok{(}\DecValTok{4} \NormalTok{*}\StringTok{ }\NormalTok{n))      *}\StringTok{ }\NormalTok{(}\KeywordTok{B}\NormalTok{(p, n -}\StringTok{ }\NormalTok{p) -}\StringTok{ }\DecValTok{2} \NormalTok{*}\StringTok{ }\KeywordTok{B}\NormalTok{(p +}\StringTok{ }\DecValTok{2}\NormalTok{, n -}\StringTok{ }\NormalTok{p) +}\StringTok{ }\KeywordTok{B}\NormalTok{(p +}\StringTok{ }\DecValTok{4}\NormalTok{, n -}\StringTok{ }\NormalTok{p)) +}\StringTok{ }
+\StringTok{  }\NormalTok{(a ^}\StringTok{ }\DecValTok{3} \NormalTok{/}\StringTok{ }\NormalTok{(}\DecValTok{96} \NormalTok{*}\StringTok{ }\NormalTok{n ^}\StringTok{ }\DecValTok{2}\NormalTok{)) *}\StringTok{ }\NormalTok{(}
+    \NormalTok{(}\DecValTok{3} \NormalTok{*}\StringTok{ }\NormalTok{a -}\StringTok{ }\DecValTok{16}\NormalTok{) *}\StringTok{ }\KeywordTok{B}\NormalTok{(p, n -}\StringTok{ }\NormalTok{p) -}\StringTok{ }\DecValTok{12} \NormalTok{*}\StringTok{ }\NormalTok{(a -}\StringTok{ }\DecValTok{4}\NormalTok{) *}\StringTok{ }\KeywordTok{B}\NormalTok{(p +}\StringTok{ }\DecValTok{2}\NormalTok{, n -}\StringTok{ }\NormalTok{p) +}
+\StringTok{    }\DecValTok{6} \NormalTok{*}\StringTok{ }\NormalTok{(}\DecValTok{3} \NormalTok{*}\StringTok{ }\NormalTok{a -}\StringTok{ }\DecValTok{8}\NormalTok{) *}\StringTok{ }\KeywordTok{B}\NormalTok{(p +}\StringTok{ }\DecValTok{4}\NormalTok{, n -}\StringTok{ }\NormalTok{p) -}\StringTok{ }\DecValTok{4} \NormalTok{*}\StringTok{ }\NormalTok{(}\DecValTok{3} \NormalTok{*}\StringTok{ }\NormalTok{a -}\StringTok{ }\DecValTok{4}\NormalTok{) *}\StringTok{ }\KeywordTok{B}\NormalTok{(p +}\StringTok{ }\DecValTok{6}\NormalTok{, n -}\StringTok{ }\NormalTok{p) +}
+\StringTok{    }\DecValTok{3} \NormalTok{*}\StringTok{ }\NormalTok{a *}\StringTok{ }\KeywordTok{B}\NormalTok{(p +}\StringTok{ }\DecValTok{8}\NormalTok{, n -}\StringTok{ }\NormalTok{p)}
+  \NormalTok{) }\CommentTok{# + O(n ^-3)}
+\NormalTok{\}}
+
+\NormalTok{q <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, .}\DecValTok{01}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(q, }\KeywordTok{pr2}\NormalTok{(q, }\DecValTok{10}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"rho = 0 Större stickprov ger linje till vänster"}\NormalTok{) }
+\KeywordTok{lines}\NormalTok{(q, }\KeywordTok{pr2}\NormalTok{(q, }\DecValTok{30}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{) }
+\KeywordTok{lines}\NormalTok{(q, }\KeywordTok{pr2}\NormalTok{(q, }\DecValTok{50}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{) }
+\KeywordTok{lines}\NormalTok{(q, }\KeywordTok{pr2}\NormalTok{(q, }\DecValTok{100}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{0}\NormalTok{), }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{) }
+
+\KeywordTok{plot}\NormalTok{(q, }\KeywordTok{pr2}\NormalTok{(q, }\DecValTok{10}\NormalTok{, }\DecValTok{5}\NormalTok{, .}\DecValTok{5}\NormalTok{), }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"rho = .5 Större stickprov ger linje till vänster"}\NormalTok{) }
+\KeywordTok{lines}\NormalTok{(q, }\KeywordTok{pr2}\NormalTok{(q, }\DecValTok{30}\NormalTok{, }\DecValTok{5}\NormalTok{, .}\DecValTok{5}\NormalTok{), }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{) }
+\KeywordTok{lines}\NormalTok{(q, }\KeywordTok{pr2}\NormalTok{(q, }\DecValTok{50}\NormalTok{, }\DecValTok{5}\NormalTok{, .}\DecValTok{5}\NormalTok{), }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{) }
+\KeywordTok{lines}\NormalTok{(q, }\KeywordTok{pr2}\NormalTok{(q, }\DecValTok{100}\NormalTok{, }\DecValTok{5}\NormalTok{, .}\DecValTok{5}\NormalTok{), }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{2016_w10_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+Här ser vi att större stickprov ger brantare linje, vilket är korrekt.
+Vi vill ju (för första bilden) att \(P(R^2 \leq 0|\rho^2 = 0) = 0\).
+
+Vi kanske kan utöka denna jämförelse för olika p och fler rho etc?
+
+OBSERVERA! Vi har inte läst klart artikeln utan bara kommit fram till
+(23)! Fortsätt därifrån!
+
 \section*{Referenser}\label{referenser}
 \addcontentsline{toc}{section}{Referenser}
 
 \hypertarget{refs}{}
+\hypertarget{ref-Algina2001}{}
+Algina, J., and B. C. Moulder. 2001. ``Sample Sizes for Confidence
+Intervals on the Increase in the Squared Multiple Correlation
+Coefficient.'' \emph{Educational and Psychological Measurement} 61 (4):
+633--49.
+doi:\href{https://doi.org/10.1177/00131640121971400}{10.1177/00131640121971400}.
+
+\hypertarget{ref-Algina1999}{}
+Algina, James. 1999. ``A Comparison of Methods for Constructing
+Confidence Intervals for the Squared Multiple Correlation Coefficient.''
+\emph{Multivariate Behavioral Research} 34 (4): 493--504.
+doi:\href{https://doi.org/10.1207/S15327906MBR3404\%7B/_\%7D5}{10.1207/S15327906MBR3404\{\textbackslash{}\_\}5}.
+
 \hypertarget{ref-Cattin1980}{}
 Cattin, Philippe. 1980. ``Estimation of the Predictive Power of a
 Regression Model.'' \emph{Journal of Applied Psychology} 65 (4):
@@ -728,6 +1044,12 @@ Crocker, Douglas C. 1972. ``Some Interpretations of the Multiple
 Correlation Coefficient.'' \emph{The American Statistician} 26 (2).
 Taylor \& Francis: 31--33.
 doi:\href{https://doi.org/10.1080/00031305.1972.10477345}{10.1080/00031305.1972.10477345}.
+
+\hypertarget{ref-Diedenhofen2015}{}
+Diedenhofen, Birk, and Jochen Musch. 2015. ``Cocor: A Comprehensive
+Solution for the Statistical Comparison of Correlations.'' \emph{PloS
+One} 10 (3). Public Library of Science: e0121945.
+doi:\href{https://doi.org/10.1371/journal.pone.0121945}{10.1371/journal.pone.0121945}.
 
 \hypertarget{ref-Ezekei1929}{}
 Ezekei, Mordecai. 1929. ``The Application of the Theory of Error to
@@ -742,14 +1064,19 @@ London A: Mathematical, Physical and Engineering Sciences} 121 (788):
 \url{http://rspa.royalsocietypublishing.org/content/121/788/654.abstract}.
 
 \hypertarget{ref-Fisher1924}{}
-Fisher, R a. 1924. ``The Distribution of the Partial Correlation
-Coefficient.'' \emph{Metron} 3 (3-4): 329--32.
+Fisher, R a. 1924. ``The distribution of the partial correlation
+coefficient.'' \emph{Metron} 3 (3-4): 329--32.
 
 \hypertarget{ref-Helland1987}{}
 Helland, Inge S. 1987. ``On the Interpretation and Use of R2 in
 Regression Analysis.'' \emph{Biometrics} 43 (1). {[}Wiley, International
 Biometric Society{]}: 61--69.
 doi:\href{https://doi.org/10.2307/2531949}{10.2307/2531949}.
+
+\hypertarget{ref-Hotelling1953}{}
+Hotelling, Harold. 1953. ``New Light on the Correlation Coefficient and
+its Transforms Author(s): Harold Hotelling.'' \emph{Journal of the Royal
+Statistical Society. Series B (Methodological),} 15 (2): 296--193--232.
 
 \hypertarget{ref-Kramer1963}{}
 Kramer, K H. 1963. ``Tables for Constructing Confidence Limits on the
@@ -758,25 +1085,37 @@ Statistical Association} 58 (304). {[}American Statistical Association,
 Taylor \& Francis, Ltd.{]}: 1082--5.
 doi:\href{https://doi.org/10.2307/2283334}{10.2307/2283334}.
 
+\hypertarget{ref-Kreke2015}{}
+Kreke, Joseph G, Sangeet Khemlani, and Greg Trafton. 2015. ``pAnalysis:
+Benchmarking and Rescaling R2 using Noise Percentile Analysis.''
+\url{https://cran.r-project.org/package=pAnalysis}.
+
+\hypertarget{ref-Lee1971}{}
+Lee, Yoong-Sin. 1971. ``Some Results on the Sampling Distribution of the
+Multiple Correlation Coefficient.'' \emph{Journal of the Royal
+Statistical Society. Series B (Methodological)} 33 (1). {[}Royal
+Statistical Society, Wiley{]}: 117--30.
+\url{http://www.jstor.org/stable/2986012}.
+
 \hypertarget{ref-Montgomery1973}{}
 Montgomery, David B, and Donald G Morrison. 1973. ``A Note on Adjusting
 R2.'' \emph{The Journal of Finance} 28 (4): 1009--13.
 
 \hypertarget{ref-Nakagawa1992}{}
-Nakagawa, Shigekazu, and Naoto Niki. 1992. ``Distribution of the Sample
-Correlation Coefficient for Nonnormal Populations.'' \emph{Journal of
+Nakagawa, Shigekazu, and Naoto Niki. 1992. ``Distribution of the sample
+correlation coefficient for nonnormal populations.'' \emph{Journal of
 the Japanese Society of Computational Statistics} 5 (1): 1--19.
 doi:\href{https://doi.org/10.5183/jjscs1988.5.1}{10.5183/jjscs1988.5.1}.
 
 \hypertarget{ref-Olkin1958}{}
-Olkin, Ingram, and J.W. Pratt. 1958. ``Unbiased Estimation of Certain
-Correlation Coefficients.'' \emph{The Annals of Mathematical Statistics}
+Olkin, Ingram, and J.W. Pratt. 1958. ``Unbiased estimation of certain
+correlation coefficients.'' \emph{The Annals of Mathematical Statistics}
 29 (1): 201--11.
 doi:\href{https://doi.org/10.2307/2237306}{10.2307/2237306}.
 
 \hypertarget{ref-Ozer1985}{}
-Ozer, Daniel J. 1985. ``Correlation and the Coefficient of
-Determination.'' \emph{Psychological Bulletin} 97 (2): 307--15.
+Ozer, Daniel J. 1985. ``Correlation and the coefficient of
+determination.'' \emph{Psychological Bulletin} 97 (2): 307--15.
 doi:\href{https://doi.org/10.1037/0033-2909.97.2.307}{10.1037/0033-2909.97.2.307}.
 
 \hypertarget{ref-Raju1999}{}
@@ -788,8 +1127,8 @@ doi:\href{https://doi.org/10.1177/01466219922031220}{10.1177/01466219922031220}.
 
 \hypertarget{ref-Raju1997}{}
 Raju, Nambury S, Reyhan Bilgic, Jack E Edwards, and Paul F Fleer. 1997.
-``Methodology Review: Estimation of Population Validity and
-Cross-Validity, and the Use of Equal Weights in Prediction.''
+``Methodology Review: Estimation of population validity and
+cross-validity, and the use of equal weights in prediction.''
 \emph{Applied Psychological Measurement} 21 (4): 291--305.
 
 \hypertarget{ref-Rodgers1988}{}
@@ -800,24 +1139,31 @@ doi:\href{https://doi.org/10.2307/2685263}{10.2307/2685263}.
 
 \hypertarget{ref-Skidmore2011}{}
 Skidmore, Susan Troncoso, and Bruce Thompson. 2011. ``Choosing the Best
-Correction Formula for the Pearson R 2 Effect Size.'' \emph{The Journal
+Correction Formula for the Pearson r 2 Effect Size.'' \emph{The Journal
 of Experimental Education} 79 (3): 257--78.
 doi:\href{https://doi.org/10.1080/00220973.2010.484437}{10.1080/00220973.2010.484437}.
 
+\hypertarget{ref-Steiger1992}{}
+Steiger, James H., and Rachel T. Fouladi. 1992. ``R2: A computer program
+for interval estimation, power Calculations, sample size estimation, and
+hypothesis testing in multiple regression.'' \emph{Behavior Research
+Methods, Instruments, \& Computers} 24 (4): 581--82.
+doi:\href{https://doi.org/10.3758/BF03203611}{10.3758/BF03203611}.
+
 \hypertarget{ref-Walck2007}{}
-Walck, Christian. 2007. ``Hand-Book on STATISTICAL DISTRIBUTIONS for
-Experimentalists.''
+Walck, Christian. 2007. ``Hand-book on STATISTICAL DISTRIBUTIONS for
+experimentalists.''
 \href{http://www.stat.rice.edu/\%7B~\%7Ddobelman/textfiles/DistributionsHandbook.pdf}{http://www.stat.rice.edu/\{\textasciitilde{}\}dobelman/textfiles/DistributionsHandbook.pdf}.
 
 \hypertarget{ref-Wasserstein2016}{}
-Wasserstein, Ronald L., and Nicole A. Lazar. 2016. ``The ASA's Statement
-on P-Values: Context, Process, and Purpose.'' \emph{The American
+Wasserstein, Ronald L., and Nicole A. Lazar. 2016. ``The ASA's statement
+on p-values: context, process, and purpose.'' \emph{The American
 Statistician}, March. Taylor \& Francis, 00--00.
 doi:\href{https://doi.org/10.1080/00031305.2016.1154108}{10.1080/00031305.2016.1154108}.
 
 \hypertarget{ref-Wherry1931}{}
-Wherry, R. 1931. ``A New Formula for Predicting the Shrinkage of the
-Coefficient of Multiple Correlation.'' \emph{The Annals of Mathematical
+Wherry, R. 1931. ``A new formula for predicting the shrinkage of the
+coefficient of multiple correlation.'' \emph{The Annals of Mathematical
 Statistics} 2 (4): 440--57.
 \url{http://www.jstor.org/stable/2957681$/backslash$npapers2://publication/uuid/F3D4916B-BB98-4094-A459-DF4387AC9610}.
 
@@ -825,5 +1171,15 @@ Statistics} 2 (4): 440--57.
 Wishart, Author J, T Kondo, and E M Elderton. 1931. ``The Mean and
 Second Moment Coefficient of the Multiple Correlation Coefficient, in
 Samples from a Normal Population.'' \emph{Biometrika} 22 (3/4): 353--76.
+
+\hypertarget{ref-Zou2007}{}
+Zou, Guang Yong. 2007. ``Toward using confidence intervals to compare
+correlations.'' \emph{Psychological Methods} 12 (4). Department of
+Epidemiology; Biostatistics, Schulich School of Medicine; Dentistry,
+University of Western Ontario, London, ON, Canada gzou@robarts.ca; Zou,
+Guang Yong,London,Canada,N6A 5C1,Department of Epidemiology;
+Biostatistics, Schulich School: American Psychological Association:
+399--413.
+doi:\href{https://doi.org/http://dx.doi.org/10.1037/1082-989X.12.4.399}{http://dx.doi.org/10.1037/1082-989X.12.4.399}.
 
 \end{document}

@@ -413,6 +413,210 @@ Här kan vi ju också påminna oss själva om att [@Skidmore2011] just undersök
 
 
 
+## Läsning av [@Algina1999]
+
+Jmfr 4 metoder för att bilda KI för squared multiple correlation coefficient $\rho^2$.
+Dels direkt från $R^2$, dels tre st approximativa metoder föreslagna av Olkin och Finn 1995. Approximationerna visade sig dock dåliga. Bäst använda $R^2$-versionen.
+
+Skriver att flertal författare argumenterat för att överge hypotesprövning och ist betrakta effect size. Kan ju kopplas till [@Wasserstein2016]. Detta ksulle leda till rapportering av KI för $\rho^2$.
+
+KI utgår direkt från $R^2$:s fördelning enl [@Fisher1928]. Gick då att finna vissa av dessa värden från tabell men behövde annars använda numeriska metoder för approximation mha [@Steiger1992].
+Därav utvecklades de approximativa metoderna för att kunan gå lättare att beräkna vid behov.
+
+Har rapporterats att de två första är av "no use when $\rho^2 = 0$". 
+
+KI skapat mha [@Fisher1928] kommer att ta korrekt hänsyn till bias, dvs intervallet kommer att ligga under punktskattningen ifall detta krävs baserat på n och p.
+
+OBS! Fichers metod funkar inte just då $\rho = 0$. men ger annars exakt resultat (men ävn i det fallet kan den användas med bra resultat).
+
+OBS! Studien baserad på normalfördelad data. Föreslår att framtida studier fokuserar på ej normalfördelad data. 
+
+
+
+
+## Läsning av [@Steiger1992]
+
+Beskriver det C-program "R2" (Windows, GUI/menydrivet) som användes av [@Algina1999]. Byggde på teori från Cox och Hinkley 1974 s. 213.
+Gick att beställa programmet på diskett för 30 dollar. 
+
+Hittade sedan referens [@Zou2007] till http://www.statpower.net/Software.html där programet fortfarande finns (nu gratis). Fnins även instruktioner för att köra mha Dosbox i Windows 7.
+
+
+## Läsning av [@Kreke2015]
+
+Modernt R-paket.
+
+Beskriver den extrema situationen för väldigt låga n att varje tänkbart värde på $R^2$ då $\rho^2 = 0.5$ är mer sannolikt än det faktiska, detta eftersom fördelningen har en antonode i ung mitten enl tidigare illustrationer. 
+
+Tycks som att arbetete med detta paket föregår publicering av artikel i ämnet:
+Khemlani, Sangeet; Kreke, Joseph; Trafton, Greg. "Using Percentile Analysis to Baseline Noise in R-squared". Harris, Inc; Naval Research Laboratory. (in draft)
+
+Utgår bara från korrelation mellan två variabler $X, Y$ men dessa kan ha lite olika fördelningar (normal, uniform, lognormal, opisson eller binomial).
+Har studerat delar av koden (finns tyvärr inte på GitHub annat än via CRAN-kopian.) Utifrån dessa genereras data för en empirisk fördelning av $R^2$. Inga teoretiska fördelningsantaganden görs och ännu saknas referenser till ngn teori som stödjer metoden. Kan vara värdefullt för illustrationer (har många plot-funktioner, ggplot2).
+
+Finns ett justerat $R^2$-värde som ges av `R2k`. som är helt empiriskt. Tror syftet med den kommande artikeln kanske är att jämföra denna metod mot tidigare formell-metoder etc. Känns lite spännande nu när beräkningskraften kanske är tillräcklig för att göra så. Dock bygger det på antagande om underliggande fördelning och dess parametrar etc så ser väl egentligen inte att detta skulle vara bättre än CV eller liknande (som ju då dessutom bygger på faktiska data). Men som sagt ... för illlustrativa syften kan det nog vara bra.
+
+
+## Kollar andra R-paket
+
+Har sökt på http://www.r-pkg.org/ efter:
+
+* multilpe correlation coefficient (0 träffar)
+* R2 (7, varav ett var [@Kreke2015])
+* correlation (253 träffar)
+* coefficient of determination (7 sträffar)
+
+Har också kollat listan över CRAN task views utan att hitta ngt smo känns direkt relevant.
+
+
+
+## Paketet `suppDist`
+
+Se `?Pearson`
+Har d, p, q, r och s-funktioner för fördelningen av Pearsons korrelationskoefficient. Observera att detta ju alltså inte är samma som fördelningen för $R^2$ dock. Implementerat i C så kan inte helt tolka innebörden. Källkoden finns dock här:
+https://github.com/cran/SuppDists/blob/master/src/dists.cc
+Där framgår också en källa som en kommentar i själva koden:
+
+> Density function of the correlation coefficient
+	From eq 6.5, p223 of Johnson and Kotz, Continuous Univariate Distributions,
+	 vol 2, 1st edition.  Uses Gaussian hypergeometric function, defined on
+	 page 17 (1.104) of Johnson, Kotz, and Kemp, Univariate Discrete Distributions,
+	 2nd Ed.  The derivitive is given on page 18.
+	 
+
+Dessa referens finns på MC-bibl hylla 16b:
+http://chans.lib.chalmers.se/record=b1174991
+http://chans.lib.chalmers.se/search/?searchtype=X&SORT=D&searcharg=Johnson%2C+Kotz%2C+and+Kemp%2C+Univariate+Discrete+Distributions&searchscope=1&submit=Submit
+
+som har öppettider:
+
+* Tisdagar 10 - 12
+* Onsdagar 15 - 17
+* Torsdagar 13 - 15 
+
+http://www.chalmers.se/sv/institutioner/math/bibliotek/om-biblioteket/Sidor/Oppettider.aspx
+
+Syns också lite längre ner att han använder hypergeometrisk funktion och att han tycks integrera en funktion etc. Känns solitt.
+
+Ingen refernes angiven i paketet. 
+Paketet blev tyvärr "orphened" efter att dess skapare Robert Wheeler omkommit efter kollision med bil då han själv cyklade: 
+https://cran.r-project.org/web/packages/AlgDesign/NEWS
+
+
+Drar lite slumptal för illustration:
+```{r}
+library(SuppDists)
+par(mfrow = c(2, 2))
+hist(rPearson(1e6, 10    ) ^ 2)
+hist(rPearson(1e6, 30    ) ^ 2)
+hist(rPearson(1e6, 10, .5) ^ 2)
+hist(rPearson(1e6, 30, .5) ^ 2)
+```
+
+
+
+## Paketet `cvq2`
+
+Se: http://www.r-pkg.org/pkg/cvq2
+
+Tror dock inte att detta äre relevant i sammanhanget. Behandlar PRESS etc.
+
+
+
+
+
+## Läsning av [@Zou2007]
+
+Erbjöd även SAS-kod i supplemental materials:
+http://dx.doi.org/10.1037/1082-989x.12.4.399.supp
+
+Nämner här att det fnins åtm 14 olika sätt att betrakta $\rho^2$ (jmfr [@Rodgers1988] som också refereras ihop med ytterligare sätt).
+
+Om man vill skapa KI för enskild $\rho2$ funkar det ganska bra med Fishers z (transformerar fram och tillbaka). Detta funkar dock inte vid jämförelser mellan två olika $\rho2$ då bakåttransformation saknas. 
+
+För $\rho^2$ är det ännu mer komplicerat då fördelningen är så knepig. Skriver att sådana tabulerade värden har publicerats men att de sällan använts. Approximationer finns också som sägs funka ganska bra men som trots allt inte kan användas för jämförelser. Approximationer som ignorerar fördelningens skevhet har också presenterats med sedan förkastats [@Algina1999].
+
+Poängterar att man inte får blanda ihop fördelning för $r$ och $\sqrt{R^2}$ då den senare ju bara kan anta positiva värtden.
+
+Finns SAS-metod: "SAS PROC CANCORR" och i appendix beskrivs även implementat5ion för SPSS. Dessa bygger på approximation mha F-fördelning.
+
+* För $\rho$:
+   * Överlapping:
+    Metoder som bygger på normalantagande funkar inte för stickprov mindre än 100. För storlek 100 - 200 täcker man $\rho^2$ i        
+    $1-\alpha$ procent av fallen men assymetrin ger skevt resultat upp till stickprovsstorlekar på ca 200.
+    Med F-fördelning funkar det dock bra  för storlekar ner till ca 15.
+   * Ej överlappande:
+* För $\rho^2$:
+   * Funkar inte alls med normalfördelningsantagande
+   * Funkar hyffsat med F-fördelning men testas bara för stickprovsstorlekar >= 50. Dock med $p = 3, 6$ (men resultaten likvärdiga så redovisar endast för $p = 6$ i tab 3).
+   
+Gör flera referenser till Lee 1971 för approximativ fördelning till $R^2$ så gissar att det kan vara värt att kolla upp.
+Slutsats för $R^2$ är att resultatet trots allt blir ungefär samma som enl [@Algina2001] (som tillämpade en mer approximativ metod).
+
+**OBS!** Finns ett bra appendix som också förklarar den approximativa icke-centrala F-fördelningen enl Lee 1971. Observera att den fördelningen gäller rtansformationen ovan, där [@Helland1987] anger Gurland 1968 som källa men med skillnaden att vi här har en icke-centralfördelning (gissar att denna på ngt sätt är bättre då den dessutmo är senare).
+
+
+## Paketet `cocor`
+
+Se: http://www.r-pkg.org/pkg/cocor 
+
+Paketet har också GUI dels online, dels för desktop. 
+
+
+### Läsning av [@Diedenhofen2015].
+
+KI skapas baserat på [@Zou2007] men behandlar tyvärr bara korrelation och inte $\rho^2$. Går därför inte vidare med detta men kanske ändå värt att nämna att det finns ett lättanvänt verktyg för vanlig korrelation (gher dessutom väldigt många olika testresultat ... kanske för många med tanke på att alla kanske inte är optimala ...).
+
+
+
+
+## Läsning av [@Lee1971]
+
+Undersöker sample distribution multiple correlation coefficient. 
+Från normal sample. När antalet oberoende variater udda är denna fördelning förbunden med fördelningen för simlpe correlation. Utnyttjar att underliggande fördelning är ickecentral beta men approximerar med central och ickecentral F samt normalfördelning.
+
+Poängterar att [@Hotelling1953] föreslog beräkning av fördelningsfunktion mha rekursion ("recurrence formula") men tyvärr bara för udda p. 
+
+Ger (23) som en approximativ fördelningsfunktion mha ickecentral beta. Lång formel så skriver inte ner den just nu men implementerar som R-funktion för skoj skull:
+
+```{r}
+pr2 <- function(q, n, p, rho) {
+  rh <- rho ^ 2 / (1 - rho ^ 2)
+  a <- n * rh
+  
+  B <- function(shape1, shape2) stats::pbeta(q, shape1, shape2,  ncp = a)
+  
+  B(p, n - p) + 
+  (a ^ 2 / (4 * n))      * (B(p, n - p) - 2 * B(p + 2, n - p) + B(p + 4, n - p)) + 
+  (a ^ 3 / (96 * n ^ 2)) * (
+    (3 * a - 16) * B(p, n - p) - 12 * (a - 4) * B(p + 2, n - p) +
+    6 * (3 * a - 8) * B(p + 4, n - p) - 4 * (3 * a - 4) * B(p + 6, n - p) +
+    3 * a * B(p + 8, n - p)
+  ) # + O(n ^-3)
+}
+
+q <- seq(0, 1, .01)
+par(mfrow = c(1, 2))
+plot(q, pr2(q, 10, 5, 0), type = "l", main = "rho = 0 Större stickprov ger linje till vänster") 
+lines(q, pr2(q, 30, 5, 0), type = "l") 
+lines(q, pr2(q, 50, 5, 0), type = "l") 
+lines(q, pr2(q, 100, 5, 0), type = "l") 
+
+plot(q, pr2(q, 10, 5, .5), type = "l", main = "rho = .5 Större stickprov ger linje till vänster") 
+lines(q, pr2(q, 30, 5, .5), type = "l") 
+lines(q, pr2(q, 50, 5, .5), type = "l") 
+lines(q, pr2(q, 100, 5, .5), type = "l") 
+```
+
+Här ser vi att större stickprov ger brantare linje, vilket är korrekt. Vi vill ju (för första bilden) att $P(R^2 \leq 0|\rho^2 = 0) = 0$.
+
+Vi kanske kan utöka denna jämförelse för olika p och fler rho etc?
+
+OBSERVERA! Vi har inte läst klart artikeln utan bara kommit fram till (23)! Fortsätt därifrån!
+
+
+
+
 
 
 
