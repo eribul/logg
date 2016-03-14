@@ -580,10 +580,11 @@ Poängterar att [@Hotelling1953] föreslog beräkning av fördelningsfunktion mh
 Ger (23) som en approximativ fördelningsfunktion mha ickecentral beta. Lång formel så skriver inte ner den just nu men implementerar som R-funktion för skoj skull:
 
 ```{r}
+# Approxinmativ F via ickecentral beta
 pr2 <- function(q, n, p, rho) {
+  
   rh <- rho ^ 2 / (1 - rho ^ 2)
   a <- n * rh
-  
   B <- function(shape1, shape2) stats::pbeta(q, shape1, shape2,  ncp = a)
   
   B(p, n - p) + 
@@ -612,9 +613,9 @@ Här ser vi att större stickprov ger brantare linje, vilket är korrekt. Vi vil
 
 Vi kanske kan utöka denna jämförelse för olika p och fler rho etc?
 
-OBSERVERA! Vi har inte läst klart artikeln utan bara kommit fram till (23)! Fortsätt därifrån!
+Artiklen ger även approximationer för $\tilde{R}^2 \sim F$ och icke-central F men jag nöjer mig just nu med den första då den ändå inte rör $R^2$ direkt utan en transformation därav.
 
-
+Görs även en approximation mha normalfördelning baserat på power-series men. Görs även jmfr med Fishers z men fniner att det är en dålig metod med för mkt bias etc. I editors note görs försök att rädda Fishers z, går delvis men inte helt och metoder fortf sämre än F-approximationerna. 
 
 
 

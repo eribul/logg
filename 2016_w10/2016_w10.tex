@@ -977,10 +977,11 @@ R-funktion för skoj skull:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{# Approxinmativ F via ickecentral beta}
 \NormalTok{pr2 <-}\StringTok{ }\NormalTok{function(q, n, p, rho) \{}
+  
   \NormalTok{rh <-}\StringTok{ }\NormalTok{rho ^}\StringTok{ }\DecValTok{2} \NormalTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{rho ^}\StringTok{ }\DecValTok{2}\NormalTok{)}
   \NormalTok{a <-}\StringTok{ }\NormalTok{n *}\StringTok{ }\NormalTok{rh}
-  
   \NormalTok{B <-}\StringTok{ }\NormalTok{function(shape1, shape2) stats::}\KeywordTok{pbeta}\NormalTok{(q, shape1, shape2,  }\DataTypeTok{ncp =} \NormalTok{a)}
   
   \KeywordTok{B}\NormalTok{(p, n -}\StringTok{ }\NormalTok{p) +}\StringTok{ }
@@ -1013,8 +1014,14 @@ Vi vill ju (för första bilden) att \(P(R^2 \leq 0|\rho^2 = 0) = 0\).
 
 Vi kanske kan utöka denna jämförelse för olika p och fler rho etc?
 
-OBSERVERA! Vi har inte läst klart artikeln utan bara kommit fram till
-(23)! Fortsätt därifrån!
+Artiklen ger även approximationer för \(\tilde{R}^2 \sim F\) och
+icke-central F men jag nöjer mig just nu med den första då den ändå inte
+rör \(R^2\) direkt utan en transformation därav.
+
+Görs även en approximation mha normalfördelning baserat på power-series
+men. Görs även jmfr med Fishers z men fniner att det är en dålig metod
+med för mkt bias etc. I editors note görs försök att rädda Fishers z,
+går delvis men inte helt och metoder fortf sämre än F-approximationerna.
 
 \section*{Referenser}\label{referenser}
 \addcontentsline{toc}{section}{Referenser}
