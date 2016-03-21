@@ -52,7 +52,7 @@ De undersöker empiriskt med monte-carlo.-simulering och tycks ha ett väldigt b
 
 Skriver att olika studier visar olika resultat för vilken justering som är den bästa. Finns t ex resultat som pekar åp att Browne bäst för just multipel korrelation. 
 
-Poängterar att man i mpnga studier blandat ihop [@Ezekei1929] och [@Wherry1931] och iobland även $\rho^2$ med $\rho^2_c$, vilket leder till felaktiga resultat. Nämner också att olika studier jmfrt olika metoder, vilket gör att man saknar helhetsbild samt att utvärdering mha olika data set inte nödvändigtvis heller underlättar jämförelser. Förespråkar att använda genererad syntetisk data. 
+Poängterar att man i mpnga studier blandat ihop [@Ezekiel1929] och [@Wherry1931] och iobland även $\rho^2$ med $\rho^2_c$, vilket leder till felaktiga resultat. Nämner också att olika studier jmfrt olika metoder, vilket gör att man saknar helhetsbild samt att utvärdering mha olika data set inte nödvändigtvis heller underlättar jämförelser. Förespråkar att använda genererad syntetisk data. 
 
 Nämner att $R^2$ används både för förståelse mn också för predektion men att den överskattas i båda fallen, dvs att man tenderar få et lägre värde då samma modell tillämpas på nytt data set.
 
@@ -65,7 +65,7 @@ Samlpe multilpe correlation coefficient används som regel både frö $R$ och $R
 
 Nämner att det finns åtm 15 olika justerinfsformler. 
 
-Menar här liksom även tidigare källa att Smiths formel enl [@Ezekei1929] och beskrivet somså även av [@Wherry1931]: 
+Menar här liksom även tidigare källa att Smiths formel enl [@Ezekiel1929] och beskrivet somså även av [@Wherry1931]: 
 $$\hat{R}^2 = 1 - \frac{N}{N - p}(1 - R^2)$$
 
 Även den formell som ibland kallas Wherrys formell 1:
@@ -201,7 +201,7 @@ Finner att för adjusted enl [@Wherry1931] $\hat{\rho}_E^2$ (egen beteckning) oc
 
 Denna artikels upplägg liknar väldigt mkt [@Skidmore2011] men för lite färre formler. Dock finns även här olika föfrdelningar med olika kurtosis etc. Skidmore refererade till denna artikel och utgav sig just för att vara en förbättring i förhållande till denna. 
 
-Slutsats att $R^2$ bara är marginellt bias och att Smiths och [@Ezekei1929] duger bra för korrigering.
+Slutsats att $R^2$ bara är marginellt bias och att Smiths och [@Ezekiel1929] duger bra för korrigering.
 
 Poängterar att många tidsskrifter nu kräver rapportering av effect size.
 Skriver att alla effektmått baserade på OLS kommer att överestimera sitt sanna värde då man får en sorts over fitting ty man får in sample bias. 
@@ -343,14 +343,13 @@ Nämner också att skattningen inte robust men att Spearmans korrelation då är
 F.ö. en mkt bra, grundläggande och översiktlig artikel som kan rekommenderas som en första introduktion till ämnet i största allmänhet!
 
 > The correlation coefficient, r, is a standardized index for which the value does not depend on the measurement scales
-of the variables. Its values lies (58) in the range (−1, 1), and its squared value describes (59) the proportional reduction in variability of one variable when the other is held constant. It is
+of the variables. Its values lies (58) in the range (-1, 1), and its squared value describes (59) the proportional reduction in variability of one variable when the other is held constant. It is
 worth noting that since for any r2 other than 0 or 1, |r2|<r; r may give the impression of a closer relationship (60) between x and y than does the corresponding r2. Therefore, although the correlation coefficient is by itself an important measure of relationship between the variables, it is R squared that permits comparison of the strengths of relationships. The reasons for making a distinction (41, 5) between r and
-R are that i) r is a measure of association between two random variables, whereas R is a measure between a random variable y and its prediction ˆ
-y from a regression model; ii) R is always well
+R are that i) r is a measure of association between two random variables, whereas R is a measure between a random variable y and its prediction y from a regression model; ii) R is always well
 defined, regardless of whether the independent variable assumed to be random or fixed. In contrast, calculating the correlation between a random variable, y, and a fixed predictor variable x, that is, a variable that is not considered random, makes no sense.
 
 > Because r2 gives the proportion of variance that is common between the two variables x and y, the uncommon or unique variance is the remainder, and this is known as the coefficient
-of nondetermination and is usually symbolized as k2=1 −r2. Some statisticians refer to (61) the coefficient of alienation k, which indicates the degree of lack of relationship.
+of nondetermination and is usually symbolized as k2=1 - r2. Some statisticians refer to (61) the coefficient of alienation k, which indicates the degree of lack of relationship.
 
 
 
@@ -370,13 +369,13 @@ Handlar om mixed models. Kanske värt att nämna i ev samband med fixed och rand
 
 ## Läsning av [@Burton2006]
 
-OBS! Handlar inte om ä,net utan om design av simulationsstudier inom medecin.
+OBS! Handlar inte om ämnet utan om design av simulationsstudier inom medecin.
 
 Föreslår att man vid simuleringsstudier, likväl som vid RCT etc upprättar ett studieprotokoll och att alla val av storlekar och metoder etc motiveras väl.
 Se fig 1 för uppställning av vad man bör tänka på.
 Man bör ange vilken slumptalsgenerator och med vilken seed som används. Måste tänka på hur olika variabler korrelerar, ofta orimligt att verkligen ha helt okorrelerade data. Bör om möjligt undersöka hela paramterspejset eller åtm den del som är av intresse vid tillämpning.
 
-Olika mått för performance mearure kan och bör rapporteras, utöver ren biad även andel bias av hela måttet, standardiserad bias, MSE etc.
+Olika mått för performance mearure kan och bör rapporteras, utöver ren bias även andel bias av hela måttet, standardiserad bias, MSE etc.
 
 Genomgång har visat att väldigt många simuleringsstudier är undermåligt beskrivna. Skärpning!
 

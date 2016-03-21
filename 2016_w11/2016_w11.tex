@@ -192,12 +192,12 @@ Skriver att olika studier visar olika resultat för vilken justering som
 är den bästa. Finns t ex resultat som pekar åp att Browne bäst för just
 multipel korrelation.
 
-Poängterar att man i mpnga studier blandat ihop (Ezekei 1929) och
-(Wherry 1931) och iobland även \(\rho^2\) med \(\rho^2_c\), vilket leder
-till felaktiga resultat. Nämner också att olika studier jmfrt olika
-metoder, vilket gör att man saknar helhetsbild samt att utvärdering mha
-olika data set inte nödvändigtvis heller underlättar jämförelser.
-Förespråkar att använda genererad syntetisk data.
+Poängterar att man i mpnga studier blandat ihop (Ezekiel and Mordecai
+1929) och (Wherry 1931) och iobland även \(\rho^2\) med \(\rho^2_c\),
+vilket leder till felaktiga resultat. Nämner också att olika studier
+jmfrt olika metoder, vilket gör att man saknar helhetsbild samt att
+utvärdering mha olika data set inte nödvändigtvis heller underlättar
+jämförelser. Förespråkar att använda genererad syntetisk data.
 
 Nämner att \(R^2\) används både för förståelse mn också för predektion
 men att den överskattas i båda fallen, dvs att man tenderar få et lägre
@@ -220,8 +220,8 @@ måste man ``shrink'' eller ``correct'' \(R\) för att åstadkomma adjusted
 
 Nämner att det finns åtm 15 olika justerinfsformler.
 
-Menar här liksom även tidigare källa att Smiths formel enl (Ezekei 1929)
-och beskrivet somså även av (Wherry 1931):
+Menar här liksom även tidigare källa att Smiths formel enl (Ezekiel and
+Mordecai 1929) och beskrivet somså även av (Wherry 1931):
 \[\hat{R}^2 = 1 - \frac{N}{N - p}(1 - R^2)\]
 
 Även den formell som ibland kallas Wherrys formell 1:
@@ -425,8 +425,8 @@ men för lite färre formler. Dock finns även här olika föfrdelningar med
 olika kurtosis etc. Skidmore refererade till denna artikel och utgav sig
 just för att vara en förbättring i förhållande till denna.
 
-Slutsats att \(R^2\) bara är marginellt bias och att Smiths och (Ezekei
-1929) duger bra för korrigering.
+Slutsats att \(R^2\) bara är marginellt bias och att Smiths och (Ezekiel
+and Mordecai 1929) duger bra för korrigering.
 
 Poängterar att många tidsskrifter nu kräver rapportering av effect size.
 Skriver att alla effektmått baserade på OLS kommer att överestimera sitt
@@ -461,22 +461,270 @@ three or four people will always define a straight line in the sample
 scattergram, and thus r2 will always be 1.0. (p.~68)
 \end{quote}
 
+\section{2016-03-15}\label{section-1}
+
+Möte med SN:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Artikeln bör vara då fokuserad som möjligt på ett ``budskap''
+\item
+  Används de referenser som känns relevanta men inkludera inte ref bara
+  för sakens skull.
+\item
+  Gör simulering med bivariat normalfördelad data och
+  \(\rho^2 = .1, .25, .5, .9, N = 5, 10, 20, 30, 40, 50, 100, 150, 200\)
+  upprepa 1000 ggr. 4 grafer (2 * 2) med stickprov på x-axeln och
+  \(\rho^2, R^2\) på y-axeln. Olika linjer för de sex sedan tidigare
+  presenterade justerade \(R^2\)-värdena, ojusterade samt väntevärdet
+  enl
+\end{enumerate}
+
+Implementerar funktioner för medelvärde och varians av \(R^2\) enl
+(Wishart, Kondo, and Elderton 1931):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# mean av R^2 enl (i)}
+\NormalTok{mean_r2 <-}\StringTok{ }\NormalTok{function(rho2, n, p) \{}
+  \DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{((n -}\StringTok{ }\NormalTok{p) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\DecValTok{1}\NormalTok{)) *}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{rho2) *}\StringTok{ }\KeywordTok{Re}\NormalTok{(hypergeo::}\KeywordTok{hypergeo}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, .}\DecValTok{5} \NormalTok{*}\StringTok{ }\NormalTok{(n +}\StringTok{ }\DecValTok{1}\NormalTok{), rho2))}
+\NormalTok{\}}
+
+\CommentTok{# var av R^2 enl (ii)}
+\NormalTok{var_r2 <-}\StringTok{ }\NormalTok{function(rho2, n, p) \{}
+  \NormalTok{(}
+    \NormalTok{(((n -}\StringTok{ }\NormalTok{p) *}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p +}\StringTok{ }\DecValTok{2}\NormalTok{)) /}\StringTok{ }\NormalTok{((n -}\StringTok{ }\DecValTok{1}\NormalTok{) *}\StringTok{ }\NormalTok{(n +}\StringTok{ }\DecValTok{1}\NormalTok{))) *}\StringTok{ }
+\StringTok{      }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{rho2) *}\StringTok{ }
+\StringTok{      }\KeywordTok{Re}\NormalTok{(hypergeo::}\KeywordTok{hypergeo}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, .}\DecValTok{5} \NormalTok{*}\StringTok{ }\NormalTok{(n +}\StringTok{ }\DecValTok{3}\NormalTok{), rho2))}
+  \NormalTok{) -}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\KeywordTok{mean_r2}\NormalTok{(rho2, n, p)) ^}\StringTok{ }\DecValTok{2}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Implementerar även funktioner för olika justerade \(R^2\)-värden: smith,
+ezekiel, wherry, olkin\_pratt1, pratt, claudy enl (Yin and Fan 2001).
+olkin\_pratt enl (Olkin and Pratt 1958). olkin\_pratt2 enl (Cattin 1980)
+där olkin\_pratt1 och 2 är approximationer av olkin\_pratt
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{adjusted_r2 <-}\StringTok{ }\NormalTok{function(r2, n, p, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\StringTok{"smith"}\NormalTok{, }\StringTok{"ezekiel"}\NormalTok{, }\StringTok{"wherry"}\NormalTok{, }\StringTok{"olkin_pratt"}\NormalTok{, }\StringTok{"olkin_pratt1"}\NormalTok{, }
+                                          \StringTok{"olkin_pratt2"}\NormalTok{, }\StringTok{"pratt"}\NormalTok{, }\StringTok{"claudy"}\NormalTok{)) \{}
+  
+  \NormalTok{smith        <-}\StringTok{ }\NormalTok{function() }\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{(n       /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p))     *}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)}
+  \NormalTok{ezekiel      <-}\StringTok{ }\NormalTok{function() }\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{((n -}\StringTok{ }\DecValTok{1}\NormalTok{) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{)) *}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)}
+  \NormalTok{wherry       <-}\StringTok{ }\NormalTok{function() }\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{((n -}\StringTok{ }\DecValTok{1}\NormalTok{) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p    )) *}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)}
+  \NormalTok{olkin_pratt  <-}\StringTok{ }\NormalTok{function() }\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{(((n -}\StringTok{ }\DecValTok{3}\NormalTok{) *}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{)) *}\StringTok{ }\KeywordTok{Re}\NormalTok{(hypergeo::}\KeywordTok{hypergeo}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, (n -}\StringTok{ }\NormalTok{p +}\StringTok{ }\DecValTok{1}\NormalTok{) /}\StringTok{ }\DecValTok{2}\NormalTok{, }\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2))}
+  \NormalTok{olkin_pratt1 <-}\StringTok{ }\NormalTok{function() }\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{(((n -}\StringTok{ }\DecValTok{3}\NormalTok{) *}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{)) *}\StringTok{  }\NormalTok{(}\DecValTok{1} \NormalTok{+}\StringTok{ }\NormalTok{(}\DecValTok{2} \NormalTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{))}
+  \NormalTok{olkin_pratt2 <-}\StringTok{ }\NormalTok{function() }\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{(((n -}\StringTok{ }\DecValTok{3}\NormalTok{) *}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{)) *}\StringTok{ }\NormalTok{((}\DecValTok{1} \NormalTok{+}\StringTok{ }\NormalTok{(}\DecValTok{2} \NormalTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{)) +}\StringTok{ }
+\StringTok{                                 }\NormalTok{((}\DecValTok{8} \NormalTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2) ^}\StringTok{ }\DecValTok{2}\NormalTok{)   /}\StringTok{ }\NormalTok{((n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{) *}\StringTok{  }\NormalTok{(n -}\StringTok{ }\NormalTok{p +}\StringTok{ }\DecValTok{3}\NormalTok{))))}
+  \NormalTok{pratt        <-}\StringTok{ }\NormalTok{function() }\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{(((n -}\StringTok{ }\DecValTok{3}\NormalTok{) *}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{)) *}\StringTok{  }\NormalTok{(}\DecValTok{1} \NormalTok{+}\StringTok{ }\NormalTok{(}\DecValTok{2} \NormalTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\FloatTok{2.3}\NormalTok{))}
+  \NormalTok{claudy       <-}\StringTok{ }\NormalTok{function() }\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{(((n -}\StringTok{ }\DecValTok{4}\NormalTok{) *}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{)) *}\StringTok{  }\NormalTok{(}\DecValTok{1} \NormalTok{+}\StringTok{ }\NormalTok{(}\DecValTok{2} \NormalTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \NormalTok{-}\StringTok{ }\NormalTok{r2)) /}\StringTok{ }\NormalTok{(n -}\StringTok{ }\NormalTok{p -}\StringTok{ }\DecValTok{1}\NormalTok{))}
+  
+  \NormalTok{x <-}\StringTok{ }\KeywordTok{vapply}\NormalTok{(adj, do.call, }\KeywordTok{numeric}\NormalTok{(}\DecValTok{1}\NormalTok{), }\KeywordTok{list}\NormalTok{(), }\DataTypeTok{envir =} \KeywordTok{environment}\NormalTok{())}
+  \KeywordTok{names}\NormalTok{(x) <-}\StringTok{ }\NormalTok{adj}
+  \NormalTok{x}
+\NormalTok{\}}
+
+\NormalTok{r2 <-}\StringTok{ }\NormalTok{function(x, rho2, ...) \{}
+  \NormalTok{r2 <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(x)$r.squared}
+  \NormalTok{n  <-}\StringTok{ }\KeywordTok{length}\NormalTok{(}\KeywordTok{residuals}\NormalTok{(x))}
+  \NormalTok{p  <-}\StringTok{ }\KeywordTok{length}\NormalTok{(x$coefficients) -}\StringTok{ }\DecValTok{1}
+  
+  \KeywordTok{c}\NormalTok{(}\DataTypeTok{r2 =} \NormalTok{r2, }\DataTypeTok{mean_r2 =} \KeywordTok{mean_r2}\NormalTok{(rho2, n, p), }\DataTypeTok{var_r2 =} \KeywordTok{var_r2}\NormalTok{(rho2, n, p),}
+         \KeywordTok{adjusted_r2}\NormalTok{(r2, n, p, ...))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Har nu implementerat funktionerna ovan i \texttt{r2samplesize}-paketet
+och kan därmed framöver anropa dem därifrån.
+
+\section{2016-03-17}\label{section-2}
+
+Jobbade med Teds projekt.
+
+\section{2016-03-18}\label{section-3}
+
+Catched up on Pocket etc.
+
+\subsection{Läsning av (Croux and Dehon
+2003)}\label{lasning-av-croux2003}
+
+Tolkar nämnaren i formeln för \(R^2\) som residualvarians för modell med
+enbart intercept.
+
+UNdersöker robustness av \(R^2\), dvs hur enskilda outliers påverkar.
+Finns föreslagna robusta skattningar av \(R^2\) sedan tidigare som inte
+bygger på (men som kan fås till) till den vanliga LS-skattningen under
+vissa förhållanden.
+
+I huvudsak väldigt teoretiskt och torr men ändå med det viktiga
+budskapet att den vanliga LS-skattnigen inte är robust.
+
+\subsection{Läsning av (Renaud and Victoria-Feser
+2010)}\label{lasning-av-renaud2010}
+
+Handlar också om robusthet. Observera att vi tidigare sett att \(R^2\)
+är ganska robust avseende ev skevhet i underliggande fördelning men vi
+är väl helt enkelt känsligarte för outliers än för det.
+
+Det finns många olika förslag på robusta estimators, även för små
+stickprtovsstorlekar. DOck hade man hittils inte undersökt dem empiriskt
+med simuleringar etc, vilket sker i denna artikel.
+
+Noterar att \(R^2\) avser korrelation mellan y och bästa möjliga
+linjärkobination av x (eftersom ju alla sådana linjärkombinatioer har
+samma korrelation).
+
+\begin{quote}
+It is important to note that normality is not assumed, merely the
+existence of the second moments. Compared to covariance penalty methods,
+although the R2 is solely based on the covariance penalty, it plays an
+important role in model fit assessment. It should certainly not be used
+as a unique model fit assessor, but can provide a reasonable and rapid
+model fit indication.
+\end{quote}
+
+\begin{quote}
+The R2 is usually presented as the quantity that estimates the
+percentage of variance of the response variable explained by its
+(linear) relationship with the explanatory variables.
+\end{quote}
+
+Gör simuleringar med lite blandade data, kontinuerliga ovh
+dummy-variabler. Testar 8 olika estimat.
+
+Man kan ju iofs också tänka att en utliggare är verklig och att
+korrelation bara ska mäta linjärt samband, vilket man kanske alltså inte
+har fullt ut ifall även utliggare ska kunna förklaras mha av modellen???
+
+\subsection{Läsning av (Asuero, Sayago, and González
+2006)}\label{lasning-av-asuero2006}
+
+Poängterar att korrelation och regression mäter olika saker.
+
+\begin{quote}
+For either correlation or for regression models, the same expressions
+are valid, although they differ significantly in meaning.
+\end{quote}
+
+Nämner också att skattningen inte robust men att Spearmans korrelation
+då är ett alternativ som bara tar hänsyn till ranking och inte exakta
+värden.
+
+F.ö. en mkt bra, grundläggande och översiktlig artikel som kan
+rekommenderas som en första introduktion till ämnet i största allmänhet!
+
+\begin{quote}
+The correlation coefficient, r, is a standardized index for which the
+value does not depend on the measurement scales of the variables. Its
+values lies (58) in the range (-1, 1), and its squared value describes
+(59) the proportional reduction in variability of one variable when the
+other is held constant. It is worth noting that since for any r2 other
+than 0 or 1, \textbar{}r2\textbar{}\textless{}r; r may give the
+impression of a closer relationship (60) between x and y than does the
+corresponding r2. Therefore, although the correlation coefficient is by
+itself an important measure of relationship between the variables, it is
+R squared that permits comparison of the strengths of relationships. The
+reasons for making a distinction (41, 5) between r and R are that i) r
+is a measure of association between two random variables, whereas R is a
+measure between a random variable y and its prediction y from a
+regression model; ii) R is always well defined, regardless of whether
+the independent variable assumed to be random or fixed. In contrast,
+calculating the correlation between a random variable, y, and a fixed
+predictor variable x, that is, a variable that is not considered random,
+makes no sense.
+\end{quote}
+
+\begin{quote}
+Because r2 gives the proportion of variance that is common between the
+two variables x and y, the uncommon or unique variance is the remainder,
+and this is known as the coefficient of nondetermination and is usually
+symbolized as k2=1 - r2. Some statisticians refer to (61) the
+coefficient of alienation k, which indicates the degree of lack of
+relationship.
+\end{quote}
+
+\subsection{Läsning av (Hössjer 2008)}\label{lasning-av-hossjer2008}
+
+OBS! Skriven av en Stockholmare! :-)
+
+Handlar om mixed models. Kanske värt att nämna i ev samband med fixed
+och random models? Men känns i övrigt lite off topic vilket gör att jag
+inte läser mer än abstract.
+
+\subsection{Läsning av (Burton et al.
+2006)}\label{lasning-av-burton2006}
+
+OBS! Handlar inte om ämnet utan om design av simulationsstudier inom
+medecin.
+
+Föreslår att man vid simuleringsstudier, likväl som vid RCT etc
+upprättar ett studieprotokoll och att alla val av storlekar och metoder
+etc motiveras väl. Se fig 1 för uppställning av vad man bör tänka på.
+Man bör ange vilken slumptalsgenerator och med vilken seed som används.
+Måste tänka på hur olika variabler korrelerar, ofta orimligt att
+verkligen ha helt okorrelerade data. Bör om möjligt undersöka hela
+paramterspejset eller åtm den del som är av intresse vid tillämpning.
+
+Olika mått för performance mearure kan och bör rapporteras, utöver ren
+bias även andel bias av hela måttet, standardiserad bias, MSE etc.
+
+Genomgång har visat att väldigt många simuleringsstudier är undermåligt
+beskrivna. Skärpning!
+
+\section*{Referenser}\label{referenser}
+\addcontentsline{toc}{section}{Referenser}
+
 \hypertarget{refs}{}
+\hypertarget{ref-Asuero2006}{}
+Asuero, a. G., A. Sayago, and a. G. González. 2006. ``The Correlation
+Coefficient: An Overview.'' \emph{Critical Reviews in Analytical
+Chemistry} 36 (July): 41--59.
+doi:\href{https://doi.org/10.1080/10408340500526766}{10.1080/10408340500526766}.
+
 \hypertarget{ref-Bobko2001}{}
 Bobko, Philip. 2001. ``A Review of the Correlation Coefficient and its
 Properties.'' In \emph{Correlation and Regression: Applications for
 Industrial Organizational Psychology and Management.}, 12--42.
 doi:\href{https://doi.org/10.4135/9781412983815}{10.4135/9781412983815}.
 
+\hypertarget{ref-Burton2006}{}
+Burton, Andrea, Douglas G. Altman, Patrick Royston, and Roger L. Holder.
+2006. ``The design of simulation studies in medical statistics.''
+\emph{Statistics in Medicine} 25: 4279--92.
+doi:\href{https://doi.org/10.1002/sim.2673}{10.1002/sim.2673}.
+
+\hypertarget{ref-Cattin1980}{}
+Cattin, Philippe. 1980. ``Estimation of the Predictive Power of a
+Regression Model.'' \emph{Journal of Applied Psychology} 65 (4):
+407--14.
+doi:\href{https://doi.org/10.1037//0021-9010.65.4.407}{10.1037//0021-9010.65.4.407}.
+
 \hypertarget{ref-Claudy1978}{}
 Claudy, J. G. 1978. ``Multiple Regression and Validity Estimation in One
 Sample.'' \emph{Applied Psychological Measurement} 2 (4): 595--607.
 doi:\href{https://doi.org/10.1177/014662167800200414}{10.1177/014662167800200414}.
 
-\hypertarget{ref-Ezekei1929}{}
-Ezekei, Mordecai. 1929. ``The Application of the Theory of Error to
+\hypertarget{ref-Croux2003}{}
+Croux, Cristophe, and Catherine Dehon. 2003. ``Estimators of the
+multiple correlation coefficient: Local robustness and confidence
+intervals.'' \emph{Statistical Papers} 44 (3): 315--34.
+doi:\href{https://doi.org/10.1007/s00362-003-0158-7}{10.1007/s00362-003-0158-7}.
+
+\hypertarget{ref-Ezekiel1929}{}
+Ezekiel, and Mordecai. 1929. ``The Application of the Theory of Error to
 Multiple and Curvilinear Correlation.'' \emph{Journal of the American
 Statistical Association} 24 (165): 99--104.
+
+\hypertarget{ref-Hossjer2008}{}
+Hössjer, Ola. 2008. ``On the coefficient of determination for mixed
+regression models.'' \emph{Journal of Statistical Planning and
+Inference} 138 (10): 3022--38.
+doi:\href{https://doi.org/10.1016/j.jspi.2007.11.010}{10.1016/j.jspi.2007.11.010}.
 
 \hypertarget{ref-Olkin1995}{}
 Olkin, Ingram, and Jeremy D. Finn. 1995. ``Correlations redux.''
@@ -487,6 +735,12 @@ Olkin, Ingram, and J.W. Pratt. 1958. ``Unbiased estimation of certain
 correlation coefficients.'' \emph{The Annals of Mathematical Statistics}
 29 (1): 201--11.
 doi:\href{https://doi.org/10.2307/2237306}{10.2307/2237306}.
+
+\hypertarget{ref-Renaud2010}{}
+Renaud, Olivier, and Maria Pia Victoria-Feser. 2010. ``A robust
+coefficient of determination for regression.'' \emph{Journal of
+Statistical Planning and Inference} 140 (7). Elsevier: 1852--62.
+doi:\href{https://doi.org/10.1016/j.jspi.2010.01.008}{10.1016/j.jspi.2010.01.008}.
 
 \hypertarget{ref-Shieh2010}{}
 Shieh, Gwowen. 2010. ``Estimation of the simple correlation
@@ -510,6 +764,11 @@ Wherry, R. 1931. ``A new formula for predicting the shrinkage of the
 coefficient of multiple correlation.'' \emph{The Annals of Mathematical
 Statistics} 2 (4): 440--57.
 \url{http://www.jstor.org/stable/2957681$/backslash$npapers2://publication/uuid/F3D4916B-BB98-4094-A459-DF4387AC9610}.
+
+\hypertarget{ref-Wishart1931}{}
+Wishart, Author J, T Kondo, and E M Elderton. 1931. ``The Mean and
+Second Moment Coefficient of the Multiple Correlation Coefficient, in
+Samples from a Normal Population.'' \emph{Biometrika} 22 (3/4): 353--76.
 
 \hypertarget{ref-Yin2001}{}
 Yin, Ping, and Xitao Fan. 2001. ``Estimating R 2 Shrinkage in Multiple

@@ -1,0 +1,113 @@
+---
+title: "Arbetslogg 2016 vecka 11"
+author: "Erik Bulow"
+date: "14 mars 2016"
+output: 
+  pdf_document: 
+    fig_height: 7
+    fig_width: 7
+    keep_tex: yes
+    number_sections: yes
+    toc: yes
+  word_document: 
+    fig_caption: yes
+    toc: yes
+bibliography: ../library.bib
+---
+
+
+# Förberedelser
+
+```{r echo=FALSE, results='hide'}
+suppressPackageStartupMessages(library(dplyr))
+library(r2samplesize)
+knitr::opts_chunk$set(autodep = TRUE, cache = TRUE)
+```
+```{r}
+# Try it out!
+memory.limit(50000)
+options(samplemetric.log = TRUE)
+set.seed(123)
+```
+
+
+# 2016-03-21
+
+## Läsning av [@Algina2001]
+
+Om stickprovsstorlek för KI för multipel korr coeff. Avser KI för dskillnad i $R^3$, dvs $\Delta R^2$ mellan olika modeller vid tillägg av ytterligare kovariat. Om man lägger till kovariat $X_i$ kallas $\Delta R^2$ squared semipartial correla-
+tion coefficient for $X_j$.
+
+Skriver att det under de senaste åren blivit allt vanligare att tidksrifter inom beh science kräver rapportering av effekt sizes och ibland även KI av dessa. Radar upp ett par tidsskrifter som infört sådana krav. Nämner äv en task force 1999 med dessa rekommendationer. 
+Lägger ännu inte in off referens men finns här:
+
+> Wilkinson, L., & APA Task Force on Statistical Inference. (1999). Statistical methods in psy- chology journals. American Psychologist, 54, 594-604.
+
+Simuleringsstudier med olika $k, n, \rho^2_r, \rho^2_f$ där $\rho^2_r$ för reduced model, dvs model utsan $X_i$ enl ovan och $\rho^2_f$ för den fulla modellen inkl denna. Endast multivariat normalfördelad data. Totalt 10143 paramterkombinationer. Rättfärdigar stickprovsstorlek gm referens. Varje kombination upprepas 50000 ggr. 95 % KI skapades vid varje rep. Ref till artikel som ger gränser för att utvärdera om en skattad nivå är hög eller inte etc. 
+
+**OBS!** Förklarar ocskå varför det räcker att slumpa data där varje variabel har varians = 1 då detta lätt kan generaliseras. Kanske kan vara bra att refera till. Förklarar också på ganska bra sätt hur kovariansmatrisen och dess element konstrueras. 
+
+Skattningen av KI tar ej hänsyn till att underliggande fördelning skev, vilket ger visst fel. Dessutom blir det lite för brett.
+
+Med stickprovsstorlekar under 600 kommer skapat KI inte upp till en konfidensgrad på 0.95 även om så är avsikten. För n > 600 blir det bättre men fortfarande långt ifrån bra. KI ger ofta underskattning av verkligt resultat. OBS! Detta gäller om man vill hitta ngn gemensam gräns som funkar i de flesta situationer. Då  t ex differensen är större krävs mindre stickprov fär att upptäcka detta. Artikeln innehåller omfattande tabeller som ger olika värden för olika parameterkombinationer. 
+
+Bekräftar också det vanliga att större p (här k) kräver större n. 
+
+
+
+
+
+## Läsning av [@Zimmerman2003]
+
+Handlar om $r$, ej $R^2$.
+
+Undersöker bias samt korrektionsformler. Simuleringar. Testar med Olkin-Pratt etc och även fisher Z.
+
+Anger att redan [@Fisher1915] fann att $E[r] = \rho- \frac{\rho(1-\rho^2)}{2n}$ och därpå föreslåg en unbiased korrektions-formel:
+$\hat{\rho} = r\left[ 1 + \frac{1-r^2}{2n}\right]$. Denna kallas "Fisher approximate unbiased estimator". 
+Sedan kom [@Olkin1958] med 
+$$\hat{\rho} = r\left[ 1 + \frac{1-r^2}{2(n-3}\right]$$.
+Dessa formler leder till (dirivera etc) att största bias (oberoende av n) uppnås för $\rho = \pm .577$ (vars magnitud i sin tur avgörs av $n$). Poängterar att Fishers z introducerades först med tanke på skattningens varians, inte mean. 
+Poängterar att medan an ofta finner Fishers Z på formen:
+
+$$Z = \frac{1}{2}\ln[\left[\frac{1+r}{1-r}\right]$$ anges formeln åt andra hållet:
+$$r = \frac{e^Z - e^{-Z}}{e^Z + e^{-Z}}$$ mer sällan (trots att denna används föfr att bl a skapa konfidensintervall etc).
+
+Ger också förhållandet mellan Perasons och Spearmans korrelationskoefficienter samt anger att det även föreslagits att även Spearmans koef transformeras mha Fishers Z. Även mha ytterligare utv formel.
+Undersöker även då data inte bivariat normalfördelad. Finner bl a att Fishers Z inte är robust och ger felaktigt resultat för icke normalfördelad data. 
+
+Slutsats att korrekation bör tillämpas för små stickprov eftersom resultatet annars kan bli missledande. Dock marginellt problem åtm då stickprov stort. 
+
+> These consequences [bias av $r$] appear to be more severe than ones typically associated with non-normality in t and F tests of differences in location.
+
+
+
+## Läsning av [@Shieh2008]
+
+
+
+Av abstract att döma ytterligare en valideringsstudie som jmför olika metoder för bias-justering. Även denne med slutsats att Pratt bäst.
+
+Antar N-data. 
+
+Föreslår modifierade versioner av bef adjusted values via $\max(0, \hat{rho}^2)$ och betecknar dessa med ett plus, t ex $\rho^{2+}_X$ där X anger villken justeringsformel som används. Jag implementerar nu dessai i R-funktionen `adjusted_r2` via argument `min0`.
+
+Ger också approximation till $f(R^2)) via ordinal (cenrtal) betafördelning.
+
+Utvärderar de olika justeringsformlerna och kommer fram till att [@Olkin1958] bäst och bättre ju fler termer som ingår innan den oändliga summan trunkeras. Dock är Pratts formel också nästan lika bra. Dessa båda är bättre än $\hat{\rho}_{ML}^2$ enl [@Alf2002].
+
+Att Pratt var bättre enl [@Yin2001] motiveras med att den byggde på slumpad data medan denna artikel bygger på jämförelser av teoretiska fördelningar, vilket bör vara mer exakt. 
+
+De modifierade versionerna som ger enbart tal $\geq 0$ ger mer bias än enl ursprungliga formler. Största skillnader för små $\rho$. Dock syns inga sådana skillnader om man istf bias jmfr MSE. 
+
+Rekommendationen blir efter sammanvägning av minsta bias/MSE och beräkningssvårighet att använda $\hat{\rho}^{2+}_P$, dvs positvt korrigerade enl Pratt!!!
+
+Nämner själva att det skulle vara önskvärt undersöka detta även för icke normalfördelad data!!!
+
+
+
+
+
+
+# Referenser
+
