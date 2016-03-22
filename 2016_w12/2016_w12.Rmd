@@ -107,6 +107,42 @@ Nämner själva att det skulle vara önskvärt undersöka detta även för icke 
 
 
 
+# 2016-03-22
+
+* Utforskar nya markdown-format etc och testar dessa i Teds ryggstudie. 
+* Blir inrtoducerad till nytt projekt avseende adverse events av Szilard. Startar eget projekt och därmed egen arbetslogg för det arbetet.
+
+
+
+## Läsning av "Winning the publication game"
+
+Rekommenderar att man skapar tankekarta utifrån fyra huvudgrenarna/frågorna:
+
+* Why did we start?
+* What did we do?
+* What did we found?
+* What does it all mean?
+
+Empiriskt har det visat5 sig att artiklar tenderar ha följande antal stycken per avsnott:
+
+| Avsnitt    | # stycken |
+|------------|-----------|
+| Intro      | 2         |
+| Metod      | 7         |
+| Resultat   | 7         |
+| Diskussion | 6         |
+
+s 44 ff ger bra konkreta råd till vad de olika delarna bör innehålla och hur detta kan struktureras.
+Fyra meningar är viktigast och de kan flöja ett ganska fast mönster:
+
+1. Första i intro: What we looked at
+2. Sista i intro: What we did
+3. Första i diskussion: What we found
+4. Sistai diskussion: what it means - THE MESSAGE!
+
+Se fig 5.6. Innehåller konkret uppställning över hela artikelns föreslagna upplägg.
+
+
 
 
 # Referenser
