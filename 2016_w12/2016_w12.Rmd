@@ -140,10 +140,55 @@ Fyra meningar är viktigast och de kan flöja ett ganska fast mönster:
 3. Första i diskussion: What we found
 4. Sistai diskussion: what it means - THE MESSAGE!
 
-Se fig 5.6. Innehåller konkret uppställning över hela artikelns föreslagna upplägg.
+Se fig 5.6. 
+
+Innehåller konkret uppställning över hela artikelns föreslagna upplägg.
+
+
+
+# 2016-03-23
+
+Fortsatte läsa bok enl ovan. 
+
+
+## Läsning av [@Alf2002]
+
+Föreslår en ny ML-skattning av $R^2$.
+Har dock visats enl [@Shieh2008] att denna inte kan ersätta t ex Pratt etc.
+
+Utgår från fördelningsfunktion enl [@FIsher1928] och använder Excel.
+
+Poängterar att $R^^2$ inte är en ML-skattning av $\rho^2$, vilket däremot den nu konstruerade $\hat{\rho}^2_{(ML)}$ är.
+
+Skriver att [@Ezekiel1929] var unbiased enbart för $\rho^2=0$ medan medan [@Olkin1958] alltid unbiased.
+
+Väljher medvetet att visa just den situation för vilken den egna skattningen är den bästa.
+
+Skattningen är biased men faller inom parameterrummet (dvs ger inga negativa tal).
+
+Utgår återigen från multivariat N-data. ANväder exempaldata från betyg inom luftvapnet (data som tycks återkomma, exempelvis från [@Raju1999]).
+
+Nämner också att resultat frpån just [@Raju1999] visade att skattningarna är ganska robusta, dvs funkar även om dtat skevt etc. Poängterar dock att det endast rör ett exempel och att man borde utvärdera fler ggr med lite olika förutsättningar etc.
+
+Själva artikeln helt deskriptiv. Alla formler etc i appendix. Känns lite underligt då man läser om ngt utan att riktigt veta vad det är.
+
+Presenterar för4delningafunktionen för $R^2$ enl [@Fisher1928] på ett överskådligt sätt. Undersök ifall detta är vadf vi implementerade i `dr2`-funktionen (som jag tycks ha missat att checka in på GH). Tycker mig känns igen strukturen men är inte helt säker!
+
+Artikeln känns på det hela taget lite oklar och tror i övrigt inte vi behöver tillmäta fen alltför stort intresse (inledningen är dock åedagogiskt skriven).
+
+
+
+
+## Läsning av [@Barbiero2016]
+
+Beskriver R-paket för simulering av diskret korrelerad data, vilket jag tänker kan vara relevant för egna simuleringar. OBS! Helt nytt! Står att manuskriptet accepterats men osäkert om det publicerats annat än elektroniskt etc?
+
+
+
 
 
 
 
 # Referenser
+
 
